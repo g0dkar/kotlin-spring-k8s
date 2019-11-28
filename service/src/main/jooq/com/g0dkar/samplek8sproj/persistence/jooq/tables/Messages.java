@@ -8,15 +8,26 @@ import com.g0dkar.samplek8sproj.persistence.jooq.Indexes;
 import com.g0dkar.samplek8sproj.persistence.jooq.Keys;
 import com.g0dkar.samplek8sproj.persistence.jooq.Public;
 import com.g0dkar.samplek8sproj.persistence.jooq.tables.records.MessagesRecord;
-import org.jooq.*;
-import org.jooq.impl.DSL;
-import org.jooq.impl.TableImpl;
 
-import javax.annotation.Generated;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+
+import javax.annotation.Generated;
+
+import org.jooq.Field;
+import org.jooq.ForeignKey;
+import org.jooq.Index;
+import org.jooq.Name;
+import org.jooq.Record;
+import org.jooq.Row6;
+import org.jooq.Schema;
+import org.jooq.Table;
+import org.jooq.TableField;
+import org.jooq.UniqueKey;
+import org.jooq.impl.DSL;
+import org.jooq.impl.TableImpl;
 
 
 /**

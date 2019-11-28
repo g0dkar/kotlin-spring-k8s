@@ -8,11 +8,12 @@ import com.g0dkar.samplek8sproj.persistence.jooq.tables.Messages;
 import com.g0dkar.samplek8sproj.persistence.jooq.tables.VisitorTypeEnum;
 import com.g0dkar.samplek8sproj.persistence.jooq.tables.records.MessagesRecord;
 import com.g0dkar.samplek8sproj.persistence.jooq.tables.records.VisitorTypeEnumRecord;
+
+import javax.annotation.Generated;
+
 import org.jooq.ForeignKey;
 import org.jooq.UniqueKey;
 import org.jooq.impl.Internal;
-
-import javax.annotation.Generated;
 
 
 /**

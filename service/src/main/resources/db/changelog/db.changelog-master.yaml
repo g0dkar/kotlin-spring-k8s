@@ -117,7 +117,7 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
-                  name: visitor_type
+                  name: visitor_type_id
                   type: int
                   constraints:
                     nullable: false
@@ -145,5 +145,5 @@ databaseChangeLog:
                   name: message
                   value: "Hello, World!"
               - column:
-                  name: visitor_type
+                  name: visitor_type_id
                   value: 1

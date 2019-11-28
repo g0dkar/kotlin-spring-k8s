@@ -1,1 +1,73 @@
+spring:
+  main:
+    banner-mode: 'off'
+  application:
+    name: '@application.name@'
+  mvc:
+    favicon:
+      enabled: false
+  jooq:
+    sql-dialect: POSTGRES
+  datasource:
+    url: jdbc:postgresql://localhost:${database.port:5432}/guestbook
+    username: guestbook
+    password: guestB00K
+  liquibase:
+    enabled: false
+  jackson:
+    default-property-inclusion: non_absent
+    time-zone: UTC
+    property-naming-strategy: SNAKE_CASE
 
+server:
+  port: ${PORT:8080}
+  compression:
+    enabled: true
+    min-response-size: 32
+  http2:
+    enabled: true
+
+management:
+  endpoints:
+    enabled-by-default: false
+    web:
+      base-path: /management
+      exposure:
+        include:
+          - info
+          - health
+          - metrics
+  endpoint:
+    info:
+      enabled: true
+    health:
+      enabled: true
+      show-details: always
+    metrics:
+      enabled: true
+  health:
+    diskspace:
+      threshold: 52428800
+  metrics:
+    export:
+      statsd:
+        host: "172.17.0.1"
+    binders:
+      integration:
+        enabled: false
+      jvm:
+        enabled: false
+      processor:
+        enabled: false
+      logback:
+        enabled: false
+    web:
+      server:
+        auto-time-requests: false
+
+info:
+  app:
+    encoding: '@project.build.sourceEncoding@'
+    java:
+      source: '@project.build.targetJdk@'
+      target: '@project.build.targetJdk@'

@@ -74,7 +74,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  value: 5
+                  value: 6
               - column:
                   name: name
                   value: HALFLING

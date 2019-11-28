@@ -4,11 +4,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.g0dkar</groupId>
-        <artifactId>sample-k8s-parent</artifactId>
+        <artifactId>sample-k8s</artifactId>
         <version>1.0.0</version>
     </parent>
 
-    <artifactId>sample-k8s-proj</artifactId>
+    <artifactId>service</artifactId>
     <version>1.0.0</version>
     <name>sample-k8s</name>
     <description>Kotlin Spring Boot Application to be run on Kubernetes</description>
@@ -229,7 +229,7 @@
                                     <excludes>databasechangelog | databasechangeloglock</excludes>
                                 </database>
                                 <target>
-                                    <packageName>com.pipeleap.transactions.persistence.jooq</packageName>
+                                    <packageName>com.g0dkar.samplek8sproj.persistence.jooq</packageName>
                                     <directory>src/main/jooq</directory>
                                 </target>
                             </generator>

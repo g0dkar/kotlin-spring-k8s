@@ -1,0 +1,149 @@
+databaseChangeLog:
+  - changeSet:
+      id: create_enum_tables
+      author: rafaellins
+      comment: Create Enums tables
+      changes:
+        - createTable:
+            tableName: visitor_type_enum
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: name
+                  type: varchar(32)
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: populate_enum_tables
+      author: rafaellins
+      comment: Populate Enumerations tables
+      changes:
+        - insert:
+            tableName: visitor_type_enum
+            columns:
+              - column:
+                  name: id
+                  value: 1
+              - column:
+                  name: name
+                  value: HUMAN
+        - insert:
+            tableName: visitor_type_enum
+            columns:
+              - column:
+                  name: id
+                  value: 2
+              - column:
+                  name: name
+                  value: ORC
+        - insert:
+            tableName: visitor_type_enum
+            columns:
+              - column:
+                  name: id
+                  value: 3
+              - column:
+                  name: name
+                  value: ELF
+        - insert:
+            tableName: visitor_type_enum
+            columns:
+              - column:
+                  name: id
+                  value: 4
+              - column:
+                  name: name
+                  value: DWARF
+        - insert:
+            tableName: visitor_type_enum
+            columns:
+              - column:
+                  name: id
+                  value: 5
+              - column:
+                  name: name
+                  value: UNDEAD
+        - insert:
+            tableName: visitor_type_enum
+            columns:
+              - column:
+                  name: id
+                  value: 5
+              - column:
+                  name: name
+                  value: HALFLING
+
+  - changeSet:
+      id: create_messages_table
+      author: rafaellins
+      comment: Create Accounts table
+      changes:
+        - createTable:
+            tableName: messages
+            columns:
+              - column:
+                  name: id
+                  type: uuid
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+              - column:
+                  name: active
+                  type: boolean
+                  defaultValueBoolean: true
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created
+                  type: timestamptz
+                  constraints:
+                    nullable: false
+              - column:
+                  name: parent
+                  type: uuid
+                  constraints:
+                    nullable: true
+                    foreignKeyName: fk_messages___messages_parent
+                    references: messages(id)
+              - column:
+                  name: message
+                  type: varchar(1024)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: visitor_type
+                  type: int
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_messages___visitor_type_enum
+                    references: visitor_type_enum(id)
+
+  - changeSet:
+      id: create_hello_world_message
+      author: rafaellins
+      comment: Create a Hello World message
+      changes:
+        - insert:
+            tableName: messages
+            columns:
+              - column:
+                  name: id
+                  value: 00000000-0000-0000-0000-000000000000
+              - column:
+                  name: active
+                  value: true
+              - column:
+                  name: created
+                  valueComputed: NOW()
+              - column:
+                  name: message
+                  value: "Hello, World!"
+              - column:
+                  name: visitor_type
+                  value: 1

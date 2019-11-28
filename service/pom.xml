@@ -14,6 +14,7 @@
     <description>Kotlin Spring Boot Application to be run on Kubernetes</description>
 
     <properties>
+        <finalName>${project.artifactId}-${project.version}</finalName>
         <java.version>1.8</java.version>
         <kotlin.version>1.3.50</kotlin.version>
     </properties>
@@ -21,12 +22,10 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jooq</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
+
+        <!-- Kotlin -->
         <dependency>
             <groupId>com.fasterxml.jackson.module</groupId>
             <artifactId>jackson-module-kotlin</artifactId>
@@ -43,10 +42,22 @@
             <groupId>org.jetbrains.kotlinx</groupId>
             <artifactId>kotlinx-coroutines-reactor</artifactId>
         </dependency>
+        <!-- /// -->
+
+        <!-- Persistence -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jooq</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+        </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
         </dependency>
+        <!-- /// -->
 
         <!-- DevTools Live Reload -->
         <dependency>
@@ -55,6 +66,7 @@
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
+        <!-- /// -->
 
         <!-- Tests -->
         <dependency>
@@ -76,6 +88,7 @@
     </dependencies>
 
     <build>
+        <finalName>${finalName}</finalName>
         <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
         <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
         <plugins>
@@ -86,6 +99,28 @@
             <plugin>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>compile</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <sourceDirs>
+                                <source>src/main/jooq</source>
+                                <source>src/main/kotlin</source>
+                            </sourceDirs>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>test-compile</id>
+                        <phase>test-compile</phase>
+                        <goals>
+                            <goal>test-compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
                 <configuration>
                     <args>
                         <arg>-Xjsr305=strict</arg>
@@ -102,6 +137,142 @@
                     </dependency>
                 </dependencies>
             </plugin>
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>${liquibase.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.0.0</version>
+                <executions>
+                    <execution>
+                        <id>add-jooq-source</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>src/main/jooq</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>db-migrate-local</id>
+            <build>
+                <defaultGoal>generate-sources</defaultGoal>
+                <plugins>
+                    <plugin>
+                        <groupId>org.liquibase</groupId>
+                        <artifactId>liquibase-maven-plugin</artifactId>
+                        <configuration>
+                            <driver>org.postgresql.Driver</driver>
+                            <url>${db.url}</url>
+                            <username>${db.user}</username>
+                            <password>${db.password}</password>
+                            <changeLogFile>${project.build.resources[0].directory}/db/changelog/db.changelog-master.yaml</changeLogFile>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>drop-database</id>
+                                <phase>initialize</phase>
+                                <goals>
+                                    <goal>dropAll</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>update-database</id>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>update</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.jooq</groupId>
+                        <artifactId>jooq-codegen-maven</artifactId>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.postgresql</groupId>
+                                <artifactId>postgresql</artifactId>
+                                <version>${postgresql.version}</version>
+                            </dependency>
+                        </dependencies>
+                        <configuration>
+                            <jdbc>
+                                <driver>org.postgresql.Driver</driver>
+                                <url>${db.url}</url>
+                                <user>${db.user}</user>
+                                <password>${db.password}</password>
+                            </jdbc>
+                            <generator>
+                                <generate>
+                                    <routines>false</routines>
+                                    <pojos>false</pojos>
+                                    <fluentSetters>true</fluentSetters>
+                                    <javaTimeTypes>true</javaTimeTypes>
+                                </generate>
+                                <database>
+                                    <name>org.jooq.meta.postgres.PostgresDatabase</name>
+                                    <inputSchema>public</inputSchema>
+                                    <includes>public.*</includes>
+                                    <!-- Liquibase tables -->
+                                    <excludes>databasechangelog | databasechangeloglock</excludes>
+                                </database>
+                                <target>
+                                    <packageName>com.pipeleap.transactions.persistence.jooq</packageName>
+                                    <directory>src/main/jooq</directory>
+                                </target>
+                            </generator>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>generate</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>db-migrate</id>
+            <build>
+                <defaultGoal>generate-sources</defaultGoal>
+                <plugins>
+                    <plugin>
+                        <groupId>org.liquibase</groupId>
+                        <artifactId>liquibase-maven-plugin</artifactId>
+                        <configuration>
+                            <driver>org.postgresql.Driver</driver>
+                            <url>${db.url}</url>
+                            <username>${db.user}</username>
+                            <password>${db.password}</password>
+                            <changeLogFile>${project.build.resources[0].directory}/db/changelog/db.changelog-master.yaml</changeLogFile>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>update-database</id>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>update</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>

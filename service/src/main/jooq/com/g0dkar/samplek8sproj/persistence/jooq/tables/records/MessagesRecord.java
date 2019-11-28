@@ -5,17 +5,15 @@ package com.g0dkar.samplek8sproj.persistence.jooq.tables.records;
 
 
 import com.g0dkar.samplek8sproj.persistence.jooq.tables.Messages;
-
-import java.time.OffsetDateTime;
-import java.util.UUID;
-
-import javax.annotation.Generated;
-
 import org.jooq.Field;
 import org.jooq.Record1;
 import org.jooq.Record6;
 import org.jooq.Row6;
 import org.jooq.impl.UpdatableRecordImpl;
+
+import javax.annotation.Generated;
+import java.time.OffsetDateTime;
+import java.util.UUID;
 
 
 /**
@@ -31,7 +29,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class MessagesRecord extends UpdatableRecordImpl<MessagesRecord> implements Record6<UUID, Boolean, OffsetDateTime, UUID, String, Integer> {
 
-    private static final long serialVersionUID = -1045941508;
+    private static final long serialVersionUID = -270599891;
 
     /**
      * Setter for <code>public.messages.id</code>.
@@ -109,17 +107,17 @@ public class MessagesRecord extends UpdatableRecordImpl<MessagesRecord> implemen
     }
 
     /**
-     * Setter for <code>public.messages.visitor_type</code>.
+     * Setter for <code>public.messages.visitor_type_id</code>.
      */
-    public MessagesRecord setVisitorType(Integer value) {
+    public MessagesRecord setVisitorTypeId(Integer value) {
         set(5, value);
         return this;
     }
 
     /**
-     * Getter for <code>public.messages.visitor_type</code>.
+     * Getter for <code>public.messages.visitor_type_id</code>.
      */
-    public Integer getVisitorType() {
+    public Integer getVisitorTypeId() {
         return (Integer) get(5);
     }
 
@@ -173,7 +171,7 @@ public class MessagesRecord extends UpdatableRecordImpl<MessagesRecord> implemen
 
     @Override
     public Field<Integer> field6() {
-        return Messages.MESSAGES.VISITOR_TYPE;
+        return Messages.MESSAGES.VISITOR_TYPE_ID;
     }
 
     @Override
@@ -203,7 +201,7 @@ public class MessagesRecord extends UpdatableRecordImpl<MessagesRecord> implemen
 
     @Override
     public Integer component6() {
-        return getVisitorType();
+        return getVisitorTypeId();
     }
 
     @Override
@@ -233,7 +231,7 @@ public class MessagesRecord extends UpdatableRecordImpl<MessagesRecord> implemen
 
     @Override
     public Integer value6() {
-        return getVisitorType();
+        return getVisitorTypeId();
     }
 
     @Override
@@ -268,7 +266,7 @@ public class MessagesRecord extends UpdatableRecordImpl<MessagesRecord> implemen
 
     @Override
     public MessagesRecord value6(Integer value) {
-        setVisitorType(value);
+        setVisitorTypeId(value);
         return this;
     }
 
@@ -297,7 +295,7 @@ public class MessagesRecord extends UpdatableRecordImpl<MessagesRecord> implemen
     /**
      * Create a detached, initialised MessagesRecord
      */
-    public MessagesRecord(UUID id, Boolean active, OffsetDateTime created, UUID parent, String message, Integer visitorType) {
+    public MessagesRecord(UUID id, Boolean active, OffsetDateTime created, UUID parent, String message, Integer visitorTypeId) {
         super(Messages.MESSAGES);
 
         set(0, id);
@@ -305,6 +303,6 @@ public class MessagesRecord extends UpdatableRecordImpl<MessagesRecord> implemen
         set(2, created);
         set(3, parent);
         set(4, message);
-        set(5, visitorType);
+        set(5, visitorTypeId);
     }
 }

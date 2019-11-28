@@ -8,26 +8,15 @@ import com.g0dkar.samplek8sproj.persistence.jooq.Indexes;
 import com.g0dkar.samplek8sproj.persistence.jooq.Keys;
 import com.g0dkar.samplek8sproj.persistence.jooq.Public;
 import com.g0dkar.samplek8sproj.persistence.jooq.tables.records.MessagesRecord;
+import org.jooq.*;
+import org.jooq.impl.DSL;
+import org.jooq.impl.TableImpl;
 
+import javax.annotation.Generated;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-
-import javax.annotation.Generated;
-
-import org.jooq.Field;
-import org.jooq.ForeignKey;
-import org.jooq.Index;
-import org.jooq.Name;
-import org.jooq.Record;
-import org.jooq.Row6;
-import org.jooq.Schema;
-import org.jooq.Table;
-import org.jooq.TableField;
-import org.jooq.UniqueKey;
-import org.jooq.impl.DSL;
-import org.jooq.impl.TableImpl;
 
 
 /**
@@ -43,7 +32,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Messages extends TableImpl<MessagesRecord> {
 
-    private static final long serialVersionUID = 1135436291;
+    private static final long serialVersionUID = -1242268353;
 
     /**
      * The reference instance of <code>public.messages</code>
@@ -84,9 +73,9 @@ public class Messages extends TableImpl<MessagesRecord> {
     public final TableField<MessagesRecord, String> MESSAGE = createField(DSL.name("message"), org.jooq.impl.SQLDataType.VARCHAR(1024).nullable(false), this, "");
 
     /**
-     * The column <code>public.messages.visitor_type</code>.
+     * The column <code>public.messages.visitor_type_id</code>.
      */
-    public final TableField<MessagesRecord, Integer> VISITOR_TYPE = createField(DSL.name("visitor_type"), org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
+    public final TableField<MessagesRecord, Integer> VISITOR_TYPE_ID = createField(DSL.name("visitor_type_id"), org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
      * Create a <code>public.messages</code> table reference

@@ -8,12 +8,11 @@ import com.g0dkar.samplek8sproj.persistence.jooq.tables.Messages;
 import com.g0dkar.samplek8sproj.persistence.jooq.tables.VisitorTypeEnum;
 import com.g0dkar.samplek8sproj.persistence.jooq.tables.records.MessagesRecord;
 import com.g0dkar.samplek8sproj.persistence.jooq.tables.records.VisitorTypeEnumRecord;
-
-import javax.annotation.Generated;
-
 import org.jooq.ForeignKey;
 import org.jooq.UniqueKey;
 import org.jooq.impl.Internal;
+
+import javax.annotation.Generated;
 
 
 /**
@@ -60,6 +59,6 @@ public class Keys {
 
     private static class ForeignKeys0 {
         public static final ForeignKey<MessagesRecord, MessagesRecord> MESSAGES__FK_MESSAGES___MESSAGES_PARENT = Internal.createForeignKey(com.g0dkar.samplek8sproj.persistence.jooq.Keys.MESSAGES_PKEY, Messages.MESSAGES, "messages__fk_messages___messages_parent", Messages.MESSAGES.PARENT);
-        public static final ForeignKey<MessagesRecord, VisitorTypeEnumRecord> MESSAGES__FK_MESSAGES___VISITOR_TYPE_ENUM = Internal.createForeignKey(com.g0dkar.samplek8sproj.persistence.jooq.Keys.VISITOR_TYPE_ENUM_PKEY, Messages.MESSAGES, "messages__fk_messages___visitor_type_enum", Messages.MESSAGES.VISITOR_TYPE);
+        public static final ForeignKey<MessagesRecord, VisitorTypeEnumRecord> MESSAGES__FK_MESSAGES___VISITOR_TYPE_ENUM = Internal.createForeignKey(com.g0dkar.samplek8sproj.persistence.jooq.Keys.VISITOR_TYPE_ENUM_PKEY, Messages.MESSAGES, "messages__fk_messages___visitor_type_enum", Messages.MESSAGES.VISITOR_TYPE_ID);
     }
 }

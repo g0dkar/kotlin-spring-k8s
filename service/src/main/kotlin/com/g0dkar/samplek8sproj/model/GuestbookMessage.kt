@@ -7,7 +7,7 @@ data class GuestbookMessage(
     val id: UUID,
     val active: Boolean,
     val created: OffsetDateTime,
-    val parent: UUID?,
     val message: String,
-    val visitorType: VisitorType
+    val visitorType: VisitorType,
+    val parent: UUID?
 )

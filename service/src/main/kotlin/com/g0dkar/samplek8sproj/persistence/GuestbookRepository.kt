@@ -15,9 +15,9 @@ class GuestbookRepository(private val jooq: DSLContext) {
             MESSAGES.ID,
             MESSAGES.ACTIVE,
             MESSAGES.CREATED,
-            MESSAGES.PARENT,
             MESSAGES.MESSAGE,
-            MESSAGES.VISITOR_TYPE
+            MESSAGES.VISITOR_TYPE_ID,
+            MESSAGES.PARENT
         )
             .from(MESSAGES)
             .where(MESSAGES.ID.eq(id))
@@ -29,9 +29,9 @@ class GuestbookRepository(private val jooq: DSLContext) {
             MESSAGES.ID,
             MESSAGES.ACTIVE,
             MESSAGES.CREATED,
-            MESSAGES.PARENT,
             MESSAGES.MESSAGE,
-            MESSAGES.VISITOR_TYPE
+            MESSAGES.VISITOR_TYPE_ID,
+            MESSAGES.PARENT
         )
             .from(MESSAGES)
             .where(MESSAGES.ACTIVE.eq(true))

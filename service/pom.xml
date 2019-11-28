@@ -179,7 +179,7 @@
                             <username>${db.user}</username>
                             <password>${db.password}</password>
                             <changeLogFile>
-                                ${project.build.resources[0].directory}/db/db.changelog-master.yaml
+                                ${project.build.resources[0].directory}/db/changelog/db.changelog-master.yaml
                             </changeLogFile>
                         </configuration>
                         <executions>
@@ -262,7 +262,7 @@
                             <username>${db.user}</username>
                             <password>${db.password}</password>
                             <changeLogFile>
-                                ${project.build.resources[0].directory}/db/db.changelog-master.yaml
+                                ${project.build.resources[0].directory}/db/changelog/db.changelog-master.yaml
                             </changeLogFile>
                         </configuration>
                         <executions>

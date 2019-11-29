@@ -10,6 +10,22 @@ import java.util.UUID
 
 @Repository
 class GuestbookRepository(private val jooq: DSLContext) {
+    suspend fun save(message: GuestbookMessage): Boolean =
+        jooq.insertInto(MESSAGES)
+            .set(MESSAGES.ID, message.id)
+            .set(MESSAGES.ACTIVE, message.active)
+            .set(MESSAGES.CREATED, message.created)
+            .set(MESSAGES.MESSAGE, message.message)
+            .set(MESSAGES.VISITOR_TYPE_ID, message.visitorType.id)
+            .set(MESSAGES.PARENT, message.parent)
+            .execute() > 0
+
+    suspend fun setActive(id: UUID, active: Boolean): Boolean =
+        jooq.update(MESSAGES)
+            .set(MESSAGES.ACTIVE, active)
+            .where(MESSAGES.ID.eq(id))
+            .execute() > 0
+    
     suspend fun findById(id: UUID): GuestbookMessage? =
         jooq.select(
             MESSAGES.ID,
@@ -24,7 +40,7 @@ class GuestbookRepository(private val jooq: DSLContext) {
             .and(MESSAGES.ACTIVE.eq(true))
             .fetchOneInto(GuestbookMessage::class.java)
 
-    suspend fun getMessages(max: Int = 50): Flow<GuestbookMessage> =
+    suspend fun getMessages(offset: Int = 0, max: Int = 50): Flow<GuestbookMessage> =
         jooq.select(
             MESSAGES.ID,
             MESSAGES.ACTIVE,
@@ -36,6 +52,7 @@ class GuestbookRepository(private val jooq: DSLContext) {
             .from(MESSAGES)
             .where(MESSAGES.ACTIVE.eq(true))
             .orderBy(MESSAGES.CREATED.desc())
+            .offset(offset)
             .limit(max)
             .fetchInto(GuestbookMessage::class.java)
             .asFlow()

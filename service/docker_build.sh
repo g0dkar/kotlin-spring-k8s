@@ -2,7 +2,7 @@
 set -e
 
 echo "Bulding Project..."
-mvn clean package -Dfinalname=app
+mvn clean verify package -Dfinalname=app
 
 echo "Building Image..."
 IMAGE=pipeleap-transactions

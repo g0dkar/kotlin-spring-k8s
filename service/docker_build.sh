@@ -2,10 +2,10 @@
 set -e
 
 echo "Bulding Project..."
-mvn clean verify package -Dfinalname=app
+mvn clean verify package -DfinalName=app
 
 echo "Building Image..."
-IMAGE=pipeleap-transactions
+IMAGE=sample-k8s-service
 TAG=`git log --format="%H" -n 1 | cut -c1-6`
 
 docker build -t ${IMAGE}:${TAG} \

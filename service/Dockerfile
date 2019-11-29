@@ -11,5 +11,4 @@ EXPOSE 8080/tcp
 COPY target/app.jar app.jar
 
 # Entry point
-ENTRYPOINT ["java", "-Dspring.profiles.active=live", "-Djava.security.egd=file:/dev/./urandom",
-            "-Duser.timezone=UTC", "-server", "-jar", "/app.jar"]
+ENTRYPOINT ["java", "-Dspring.profiles.active=live", "-Djava.security.egd=file:/dev/./urandom", "-Duser.timezone=UTC", "-server", "-jar", "/app.jar"]

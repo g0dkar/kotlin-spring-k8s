@@ -6,5 +6,10 @@ enum class VisitorType(val id: Int) {
     ELF(3),
     DWARF(4),
     UNDEAD(5),
-    HALFLING(6)
+    HALFLING(6);
+
+    companion object {
+        suspend fun valueOf(id: Int): VisitorType =
+            values()[id - 1]
+    }
 }

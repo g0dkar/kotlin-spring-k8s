@@ -8,8 +8,6 @@ data class GuestbookMessage(
     val active: Boolean,
     val created: OffsetDateTime,
     val message: String,
-    private val visitorTypeId: Int,
+    val visitorTypeId: Int,
     val parent: UUID?
-) {
-    val visitorType = VisitorType.values()[visitorTypeId - 1]
-}
+)

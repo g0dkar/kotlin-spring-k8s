@@ -25,7 +25,7 @@ class GuestbookRepository(private val jooq: DSLContext) {
             .set(MESSAGES.ACTIVE, active)
             .where(MESSAGES.ID.eq(id))
             .execute() > 0
-    
+
     suspend fun findById(id: UUID): GuestbookMessage? =
         jooq.select(
             MESSAGES.ID,

@@ -1,7 +1,7 @@
 package com.g0dkar.samplek8sproj.api
 
-import com.g0dkar.samplek8sproj.model.GuestbookMessage
 import com.g0dkar.samplek8sproj.model.request.GuestbookMessageRequest
+import com.g0dkar.samplek8sproj.model.response.GuestbookMessageResponse
 import com.g0dkar.samplek8sproj.service.GuestbookService
 import kotlinx.coroutines.flow.Flow
 import org.springframework.http.ResponseEntity
@@ -21,7 +21,7 @@ class GuestbookApi(
     private val guestbookService: GuestbookService
 ) {
     @GetMapping("/{id}")
-    suspend fun get(@PathVariable id: UUID): ResponseEntity<GuestbookMessage> =
+    suspend fun get(@PathVariable id: UUID): ResponseEntity<GuestbookMessageResponse> =
         guestbookService.findById(id)
             ?.let { ResponseEntity.ok(it) }
             ?: ResponseEntity.notFound().build()
@@ -35,7 +35,7 @@ class GuestbookApi(
         }
 
     @PostMapping
-    suspend fun create(@RequestBody message: GuestbookMessageRequest): ResponseEntity<GuestbookMessage> =
+    suspend fun create(@RequestBody message: GuestbookMessageRequest): ResponseEntity<GuestbookMessageResponse> =
         guestbookService.create(message)
             .let { ResponseEntity.ok(it) }
 
@@ -43,6 +43,6 @@ class GuestbookApi(
     suspend fun getAll(
         @RequestParam(required = false, defaultValue = "0") offset: Int,
         @RequestParam(required = false, defaultValue = "50") max: Int
-    ): Flow<GuestbookMessage> =
+    ): Flow<GuestbookMessageResponse> =
         guestbookService.getMessages(offset, max)
 }

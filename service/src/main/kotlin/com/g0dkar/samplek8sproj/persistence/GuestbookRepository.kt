@@ -16,7 +16,7 @@ class GuestbookRepository(private val jooq: DSLContext) {
             .set(MESSAGES.ACTIVE, message.active)
             .set(MESSAGES.CREATED, message.created)
             .set(MESSAGES.MESSAGE, message.message)
-            .set(MESSAGES.VISITOR_TYPE_ID, message.visitorType.id)
+            .set(MESSAGES.VISITOR_TYPE_ID, message.visitorTypeId)
             .set(MESSAGES.PARENT, message.parent)
             .execute() > 0
 
@@ -40,6 +40,21 @@ class GuestbookRepository(private val jooq: DSLContext) {
             .and(MESSAGES.ACTIVE.eq(true))
             .fetchOneInto(GuestbookMessage::class.java)
 
+    suspend fun findByParent(id: UUID): Flow<GuestbookMessage> =
+        jooq.select(
+            MESSAGES.ID,
+            MESSAGES.ACTIVE,
+            MESSAGES.CREATED,
+            MESSAGES.MESSAGE,
+            MESSAGES.VISITOR_TYPE_ID,
+            MESSAGES.PARENT
+        )
+            .from(MESSAGES)
+            .where(MESSAGES.PARENT.eq(id))
+            .and(MESSAGES.ACTIVE.eq(true))
+            .fetchInto(GuestbookMessage::class.java)
+            .asFlow()
+
     suspend fun getMessages(offset: Int = 0, max: Int = 50): Flow<GuestbookMessage> =
         jooq.select(
             MESSAGES.ID,
@@ -51,6 +66,7 @@ class GuestbookRepository(private val jooq: DSLContext) {
         )
             .from(MESSAGES)
             .where(MESSAGES.ACTIVE.eq(true))
+            .and(MESSAGES.PARENT.isNull)
             .orderBy(MESSAGES.CREATED.desc())
             .offset(offset)
             .limit(max)

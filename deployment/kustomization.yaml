@@ -1,0 +1,7 @@
+secretGenerator:
+  - name: postgresql-pass
+    literals:
+      - password=guestB00K
+resources:
+  - service/dependencies-deployment.yml
+  - service/service-deployment.yml

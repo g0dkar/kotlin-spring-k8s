@@ -9,9 +9,9 @@ spring:
   jooq:
     sql-dialect: POSTGRES
   datasource:
-    url: jdbc:postgresql://localhost:${database.port:5432}/guestbook
-    username: guestbook
-    password: guestB00K
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/guestbook}
+    username: ${DB_USER:guestbook}
+    password: ${DB_PASSWORD:guestB00K}
   liquibase:
     enabled: false
   jackson:

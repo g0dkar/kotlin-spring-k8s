@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: sample-k8s-guestbook-postgresql
+  labels:
+    service: sample-k8s-guestbook
+spec:
+  ports:
+    - port: 5432
+  selector:
+    service: sample-k8s-guestbook
+    tier: postgresql
+  clusterIP: None
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sample-k8s-guestbook-dbms
+  labels:
+    service: sample-k8s-guestbook
+spec:
+  selector:
+    matchLabels:
+      service: sample-k8s-guestbook
+      tier: postgresql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        service: sample-k8s-guestbook
+        tier: postgresql
+    spec:
+      containers:
+        - image: postgres:10.1
+          name: postgresql
+          env:
+            - name: POSTGRES_DB
+              value: guestbook
+            - name: POSTGRES_USER
+              value: guestbook
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgresql-pass
+                  key: password
+          ports:
+            - containerPort: 5432

@@ -4,6 +4,9 @@ indent_size = 4
 charset = utf-8
 trim_trailing_whitespace = true
 
+[*.{yml, yaml}]
+insert_final_newline = true
+
 [*.{kt, kts}]
 disabled_rules = import-ordering
 insert_final_newline = true

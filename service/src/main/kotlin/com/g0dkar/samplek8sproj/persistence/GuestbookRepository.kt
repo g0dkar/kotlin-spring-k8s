@@ -20,6 +20,11 @@ class GuestbookRepository(private val jooq: DSLContext) {
             .set(MESSAGES.PARENT, message.parent)
             .execute() > 0
 
+    suspend fun delete(id: UUID): Boolean =
+        jooq.deleteFrom(MESSAGES)
+            .where(MESSAGES.ID.eq(id))
+            .execute() > 0
+
     suspend fun setActive(id: UUID, active: Boolean): Boolean =
         jooq.update(MESSAGES)
             .set(MESSAGES.ACTIVE, active)

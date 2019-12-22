@@ -27,6 +27,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <mockserver-netty.version>5.6.1</mockserver-netty.version>
         <testcontainers.version>1.12.3</testcontainers.version>
+        <rest-assured.version>4.1.2</rest-assured.version>
     </properties>
 
     <dependencyManagement>
@@ -47,6 +48,18 @@
                 <groupId>org.testcontainers</groupId>
                 <artifactId>postgresql</artifactId>
                 <version>${testcontainers.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.rest-assured</groupId>
+                <artifactId>rest-assured</artifactId>
+                <version>${rest-assured.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.rest-assured</groupId>
+                <artifactId>json-path</artifactId>
+                <version>${rest-assured.version}</version>
                 <scope>test</scope>
             </dependency>
         </dependencies>

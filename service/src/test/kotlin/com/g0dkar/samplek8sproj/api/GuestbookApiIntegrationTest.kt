@@ -6,9 +6,10 @@ import com.g0dkar.samplek8sproj.model.VisitorType
 import com.g0dkar.samplek8sproj.model.request.GuestbookMessageRequest
 import com.g0dkar.samplek8sproj.model.response.GuestbookMessageResponse
 import com.g0dkar.samplek8sproj.persistence.jooq.Tables.MESSAGES
+import io.restassured.RestAssured.given
 import kotlinx.coroutines.runBlocking
+import org.hamcrest.CoreMatchers.equalTo
 import org.jooq.DSLContext
-import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.web.reactive.server.WebTestClient
@@ -24,28 +25,19 @@ internal class GuestbookApiIntegrationTest(
     private val MESSAGE_TEXT: String = "Test Message"
     private val MESSAGE_VISITOR_TYPE = VisitorType.values().let { it[Random().nextInt(it.size)] }
 
-    @AfterEach
-    fun after() {
-        jooq.deleteFrom(MESSAGES)
-            .where(MESSAGES.ID.ne(UUID(0, 0)))
-            .execute()
-    }
-
     @Test
     fun get() {
         val expected = testMessage()
 
-        client.get().uri("/guestbook/${expected.first.id}").exchange()
-            .expectStatus().isOk
-            .expectBody()
-            .jsonPath("id")
-            .isEqualTo(expected.first.id.toString())
-            .jsonPath("message")
-            .isEqualTo(MESSAGE_TEXT)
-            .jsonPath("visitor_type")
-            .isEqualTo(MESSAGE_VISITOR_TYPE.name)
-            .jsonPath("active")
-            .isEqualTo("true")
+        given()
+            .`when`()
+            .get("/guestbook/${expected.first.id}")
+            .then()
+            .statusCode(200)
+            .body("id", equalTo(expected.first.id.toString()))
+            .body("message", equalTo(MESSAGE_TEXT))
+            .body("visitor_type", equalTo(MESSAGE_VISITOR_TYPE.name))
+            .body("active", equalTo(true))
     }
 
     @Test

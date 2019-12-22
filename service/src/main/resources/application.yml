@@ -9,9 +9,9 @@ spring:
   jooq:
     sql-dialect: POSTGRES
   datasource:
-    url: ${DB_URL:jdbc:postgresql://localhost:5432/guestbook}
-    username: ${DB_USER:guestbook}
-    password: ${DB_PASSWORD:guestB00K}
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/kotlin_spring}
+    username: ${DB_USER:kotlin_spring}
+    password: ${DB_PASSWORD:kotlin_spring_pwd}
   liquibase:
     enabled: false
   jackson:
@@ -20,7 +20,6 @@ spring:
     property-naming-strategy: SNAKE_CASE
 
 server:
-  port: ${PORT:8080}
   compression:
     enabled: true
     min-response-size: 32

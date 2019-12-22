@@ -4,8 +4,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class SampleK8sApplication
+class Launcher
 
 fun main(args: Array<String>) {
-    runApplication<SampleK8sApplication>(*args)
+    runApplication<Launcher>(*args)
 }

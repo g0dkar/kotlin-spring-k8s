@@ -9,10 +9,10 @@ import javax.validation.constraints.Size
 data class GuestbookMessageRequest(
     @NotBlank
     @Size(min = 1, max = 1024)
-    val message: String,
+    val message: String?,
 
     @NotNull
-    val visitorType: VisitorType = VisitorType.HUMAN,
+    val visitorType: VisitorType? = VisitorType.HUMAN,
 
-    val parent: UUID?
+    val parent: UUID? = null
 )

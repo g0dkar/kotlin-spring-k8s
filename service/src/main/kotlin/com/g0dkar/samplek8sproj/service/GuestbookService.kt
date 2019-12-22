@@ -37,8 +37,8 @@ class GuestbookService(
             id = UUID.randomUUID(),
             active = true,
             created = OffsetDateTime.now(),
-            message = request.message,
-            visitorTypeId = request.visitorType.id,
+            message = request.message!!,
+            visitorTypeId = request.visitorType!!.id,
             parent = request.parent
         ).also { guestbookRepository.save(it) }
             .let { GuestbookMessageResponse.of(it) }

@@ -33,14 +33,11 @@ apt-retry install \
     unattended-upgrades \
     procps \
     curl \
-    nano \
-    host \
-    tree \
-    awscli
+    host
 
 # Cleans up all caches of apt-get.
 rm -rf /var/lib/apt/lists/*
 
 unattended-upgrades -d
 
-rm -f /utils/install_updates
+rm -f /install_updates.sh

@@ -2,10 +2,11 @@ FROM adoptopenjdk:11-jre-hotspot
 MAINTAINER Rafael M. Lins <rafael.lins777@gmail.com>
 
 # Updates the image
-COPY docker-data/install_updates /install_updates
-RUN /install_updates
+COPY docker-data/install_updates.sh /install_updates.sh
+RUN bash /install_updates.sh
 
 # Custom java.security (no cache, non-blocking and safe SecureRandom)
+# Reference: https://tersesystems.com/blog/2015/12/17/the-right-way-to-use-securerandom/
 COPY docker-data/security ${JAVA_HOME}/conf/security
 
 # Port we will expose

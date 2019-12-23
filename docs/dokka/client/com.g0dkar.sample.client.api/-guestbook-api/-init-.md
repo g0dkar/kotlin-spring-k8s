@@ -2,7 +2,7 @@
 
 # &lt;init&gt;
 
-`GuestbookApi(guestbookApiConfig: `[`GuestbookApiConfig`](../-guestbook-api-config/index.md)` = GuestbookApiConfig())`
+`GuestbookApi(retrofit: Retrofit, guestbookApiConfig: `[`GuestbookApiConfig`](../-guestbook-api-config/index.md)`)`
 
 Implements an API to interact with the Guestbook Service.
 

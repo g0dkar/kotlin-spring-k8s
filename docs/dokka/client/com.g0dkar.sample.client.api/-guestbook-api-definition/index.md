@@ -10,7 +10,7 @@ Describes the API provided by the service
 
 | Name | Summary |
 |---|---|
-| [create](create.md) | `abstract fun create(message: `[`GuestbookMessageRequest`](../../com.g0dkar.sample.client.model/-guestbook-message-request/index.md)`): Call<`[`GuestbookMessage`](../../com.g0dkar.sample.client.model/-guestbook-message/index.md)`>` |
-| [delete](delete.md) | `abstract fun delete(id: UUID): Call<Any>` |
-| [get](get.md) | `abstract fun get(id: UUID): Call<`[`GuestbookMessage`](../../com.g0dkar.sample.client.model/-guestbook-message/index.md)`>` |
-| [getAll](get-all.md) | `abstract fun getAll(offset: Int = 0, max: Int = 50): Call<List<`[`GuestbookMessage`](../../com.g0dkar.sample.client.model/-guestbook-message/index.md)`>>` |
+| [create](create.md) | `abstract suspend fun create(message: `[`GuestbookMessageRequest`](../../com.g0dkar.sample.client.model/-guestbook-message-request/index.md)`): `[`GuestbookMessage`](../../com.g0dkar.sample.client.model/-guestbook-message/index.md) |
+| [delete](delete.md) | `abstract suspend fun delete(id: UUID): Any` |
+| [get](get.md) | `abstract suspend fun get(id: UUID): `[`GuestbookMessage`](../../com.g0dkar.sample.client.model/-guestbook-message/index.md) |
+| [getAll](get-all.md) | `abstract suspend fun getAll(offset: Int = 0, max: Int = 50): List<`[`GuestbookMessage`](../../com.g0dkar.sample.client.model/-guestbook-message/index.md)`>` |

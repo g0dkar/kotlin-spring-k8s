@@ -2,4 +2,4 @@
 
 # delete
 
-`@DELETE("/guestbook/{id}") abstract fun delete(@Path("id") id: UUID): Call<Any>`
+`@DELETE("/guestbook/{id}") abstract suspend fun delete(@Path("id") id: UUID): Any`

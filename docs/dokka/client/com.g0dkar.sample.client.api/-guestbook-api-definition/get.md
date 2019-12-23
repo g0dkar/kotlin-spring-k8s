@@ -2,4 +2,4 @@
 
 # get
 
-`@GET("/guestbook/{id}") abstract fun get(@Path("id") id: UUID): Call<`[`GuestbookMessage`](../../com.g0dkar.sample.client.model/-guestbook-message/index.md)`>`
+`@GET("/guestbook/{id}") abstract suspend fun get(@Path("id") id: UUID): `[`GuestbookMessage`](../../com.g0dkar.sample.client.model/-guestbook-message/index.md)

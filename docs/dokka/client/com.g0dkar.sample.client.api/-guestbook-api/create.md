@@ -2,4 +2,7 @@
 
 # create
 
-`@POST("/guestbook") abstract fun create(@Body message: `[`GuestbookMessageRequest`](../../com.g0dkar.samplek8sproj.model.request/-guestbook-message-request/index.md)`): Call<`[`GuestbookMessageResponse`](../../com.g0dkar.samplek8sproj.model.response/-guestbook-message-response/index.md)`>`
+`@Retry("guestbookApi_R4J") @Bulkhead("guestbookApi_R4J") @CircuitBreaker("guestbookApi_R4J") suspend fun create(message: `[`GuestbookMessageRequest`](../../com.g0dkar.sample.client.model/-guestbook-message-request/index.md)`): `[`GuestbookMessage`](../../com.g0dkar.sample.client.model/-guestbook-message/index.md)
+
+Creates a new [GuestbookMessage](../../com.g0dkar.sample.client.model/-guestbook-message/index.md).
+

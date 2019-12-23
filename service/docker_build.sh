@@ -2,7 +2,7 @@
 set -e
 
 echo "Bulding Project..."
-mvn clean package -DfinalName=app
+mvn clean package -DfinalName=app -DskipTests
 
 echo "Building Image..."
 IMAGE=sample-k8s-service

@@ -2,4 +2,7 @@
 
 # get
 
-`@GET("/guestbook/{id}") abstract fun get(@Path("id") id: UUID): Call<`[`GuestbookMessageResponse`](../../com.g0dkar.samplek8sproj.model.response/-guestbook-message-response/index.md)`>`
+`@Retry("guestbookApi_R4J") @Bulkhead("guestbookApi_R4J") @CircuitBreaker("guestbookApi_R4J") suspend fun get(id: UUID): `[`GuestbookMessage`](../../com.g0dkar.sample.client.model/-guestbook-message/index.md)`?`
+
+Returns a single [GuestbookMessage](../../com.g0dkar.sample.client.model/-guestbook-message/index.md) given its ID. If not found, `null` is returned.
+

@@ -2,4 +2,7 @@
 
 # getAll
 
-`@GET("/guestbook") abstract fun getAll(@Query("offset") offset: Int = 0, @Query("max") max: Int = 50): Call<List<`[`GuestbookMessageResponse`](../../com.g0dkar.samplek8sproj.model.response/-guestbook-message-response/index.md)`>>`
+`@Retry("guestbookApi_R4J") @Bulkhead("guestbookApi_R4J") @CircuitBreaker("guestbookApi_R4J") suspend fun getAll(offset: Int = 0, @Min(1) @Max(100) max: Int = 50): Flow<`[`GuestbookMessage`](../../com.g0dkar.sample.client.model/-guestbook-message/index.md)`>`
+
+Returns a list of messages from the API. Accepts an offset and max parameters.
+

@@ -2,4 +2,4 @@
 
 # getAll
 
-`@GET("/guestbook") abstract fun getAll(@Query("offset") offset: Int = 0, @Query("max") max: Int = 50): Call<List<`[`GuestbookMessage`](../../com.g0dkar.sample.client.model/-guestbook-message/index.md)`>>`
+`@GET("/guestbook") abstract suspend fun getAll(@Query("offset") offset: Int = 0, @Query("max") max: Int = 50): List<`[`GuestbookMessage`](../../com.g0dkar.sample.client.model/-guestbook-message/index.md)`>`

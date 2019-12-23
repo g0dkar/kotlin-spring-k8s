@@ -97,12 +97,6 @@
             <groupId>com.squareup.retrofit2</groupId>
             <artifactId>converter-jackson</artifactId>
             <version>${retrofit.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.squareup.retrofit2</groupId>
-                    <artifactId>retrofit</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <!-- /// -->
 
@@ -187,7 +181,6 @@
     </dependencies>
 
     <build>
-        <finalName>${finalName}</finalName>
         <sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
         <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
 
@@ -225,14 +218,6 @@
             <plugin>
                 <groupId>org.jetbrains.dokka</groupId>
                 <artifactId>dokka-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>dokka</goal>
-                        </goals>
-                    </execution>
-                </executions>
                 <configuration>
                     <outputFormat>gfm</outputFormat>
                     <outputDir>${project.parent.basedir}/docs/dokka</outputDir>
@@ -289,6 +274,11 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.owasp</groupId>
+                <artifactId>dependency-check-maven</artifactId>
+                <version>${owasp.version}</version>
             </plugin>
         </plugins>
     </build>

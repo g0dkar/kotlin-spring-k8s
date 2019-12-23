@@ -13,6 +13,10 @@
     <version>1.0.0</version>
     <name>API Server (Service)</name>
 
+    <properties>
+        <springfox-swagger2.version>2.9.2</springfox-swagger2.version>
+    </properties>
+
     <dependencies>
         <!-- Spring Web -->
         <dependency>
@@ -80,6 +84,19 @@
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-registry-statsd</artifactId>
             <version>${micrometer.version}</version>
+        </dependency>
+        <!-- /// -->
+
+        <!-- Swagger -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${springfox-swagger2.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${springfox-swagger2.version}</version>
         </dependency>
         <!-- /// -->
 
@@ -171,14 +188,6 @@
             <plugin>
                 <groupId>org.jetbrains.dokka</groupId>
                 <artifactId>dokka-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>dokka</goal>
-                        </goals>
-                    </execution>
-                </executions>
                 <configuration>
                     <outputFormat>gfm</outputFormat>
                     <outputDir>${project.parent.basedir}/docs/dokka</outputDir>
@@ -261,11 +270,6 @@
                 </dependencies>
             </plugin>
             <plugin>
-                <groupId>org.liquibase</groupId>
-                <artifactId>liquibase-maven-plugin</artifactId>
-                <version>${liquibase.version}</version>
-            </plugin>
-            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
                 <version>3.0.0</version>
@@ -283,6 +287,11 @@
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.owasp</groupId>
+                <artifactId>dependency-check-maven</artifactId>
+                <version>${owasp.version}</version>
             </plugin>
         </plugins>
     </build>

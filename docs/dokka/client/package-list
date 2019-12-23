@@ -1,0 +1,5 @@
+$dokka.format:gfm
+$dokka.linkExtension:md
+
+com.g0dkar.sample.client.api
+com.g0dkar.sample.client.model

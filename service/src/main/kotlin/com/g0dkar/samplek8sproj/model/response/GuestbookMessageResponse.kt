@@ -17,6 +17,10 @@ data class GuestbookMessageResponse(
     val children: List<GuestbookMessageResponse>?
 ) {
     companion object {
+        /**
+         * Converts a [GuestbookMessage] into a [GuestbookMessageResponse]. The [children] argument will be used for the
+         * response. It should be filled by the caller.
+         */
         suspend fun of(
             guestbookMessage: GuestbookMessage,
             children: Flow<GuestbookMessageResponse> = emptyFlow()

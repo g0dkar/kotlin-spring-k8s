@@ -9,7 +9,7 @@ enum class VisitorType(val id: Int) {
     HALFLING(6);
 
     companion object {
-        suspend fun valueOf(id: Int): VisitorType =
+        fun valueOf(id: Int): VisitorType =
             values()[id - 1]
     }
 }

@@ -22,6 +22,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-log4j2</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!-- /// -->
 
@@ -33,10 +39,6 @@
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-reflect</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-stdlib-jdk8</artifactId>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlinx</groupId>
@@ -65,6 +67,19 @@
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
             <optional>true</optional>
+        </dependency>
+        <!-- /// -->
+
+        <!-- Micrometer -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-core</artifactId>
+            <version>${micrometer.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-statsd</artifactId>
+            <version>${micrometer.version}</version>
         </dependency>
         <!-- /// -->
 
@@ -134,21 +149,8 @@
                             <target name="ktlint">
                                 <java taskname="ktlint" dir="${basedir}" fork="true" failonerror="true"
                                       classname="com.pinterest.ktlint.Main" classpathref="maven.plugin.classpath">
-                                    <arg value="src/**/*.kt"/>
-                                </java>
-                            </target>
-                        </configuration>
-                        <goals>
-                            <goal>run</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>ktlint-format</id>
-                        <configuration>
-                            <target name="ktlint">
-                                <java taskname="ktlint" dir="${basedir}" fork="true" failonerror="true"
-                                      classname="com.pinterest.ktlint.Main" classpathref="maven.plugin.classpath">
-                                    <arg value="-F"/>
+                                    <arg value="--relative"/>
+                                    <arg value="--color"/>
                                     <arg value="src/**/*.kt"/>
                                 </java>
                             </target>
@@ -162,16 +164,46 @@
                     <dependency>
                         <groupId>com.pinterest</groupId>
                         <artifactId>ktlint</artifactId>
-                        <version>0.35.0</version>
+                        <version>${ktlint.version}</version>
                     </dependency>
                 </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.jetbrains.dokka</groupId>
+                <artifactId>dokka-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>dokka</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <outputFormat>gfm</outputFormat>
+                    <outputDir>${project.parent.basedir}/docs/dokka</outputDir>
+                    <jdkVersion>11</jdkVersion>
+                    <reportUndocumented>false</reportUndocumented>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
+                <configuration>
+                    <runOrder>alphabetical</runOrder>
+                    <excludes>
+                        <exclude>**/*IntegrationTest*</exclude>
+                    </excludes>
+                    <reportsDirectory>${project.build.directory}/reports/surefire</reportsDirectory>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <configuration>
                     <includes>
-                        <include>**/*IntegrationTest.java</include>
+                        <include>**/*IntegrationTest*</include>
                     </includes>
                 </configuration>
                 <executions>
@@ -257,7 +289,7 @@
 
     <profiles>
         <profile>
-            <id>db-migrate-local</id>
+            <id>db-migrate-with-drop</id>
             <build>
                 <defaultGoal>generate-sources</defaultGoal>
                 <plugins>

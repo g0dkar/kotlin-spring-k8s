@@ -33,7 +33,7 @@ internal class GuestbookMessageRequestTest {
         val result = assertDoesNotThrow { validator.validate(underTest) }
 
         assertNotNull(result)
-        assertEquals(2, result.size)    // Size and NotBlank
+        assertEquals(2, result.size)
 
         val violations = LinkedList(result)
 

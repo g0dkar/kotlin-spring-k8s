@@ -3,6 +3,7 @@ $dokka.linkExtension:md
 
 com.g0dkar.samplek8sproj
 com.g0dkar.samplek8sproj.api
+com.g0dkar.samplek8sproj.exception
 com.g0dkar.samplek8sproj.extensions
 com.g0dkar.samplek8sproj.model
 com.g0dkar.samplek8sproj.model.request

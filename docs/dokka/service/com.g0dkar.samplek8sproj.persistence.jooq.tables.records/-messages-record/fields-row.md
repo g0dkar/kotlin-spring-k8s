@@ -2,4 +2,4 @@
 
 # fieldsRow
 
-`open fun fieldsRow(): Row6<UUID!, Boolean!, OffsetDateTime!, UUID!, String!, Int!>!`
+`open fun fieldsRow(): Row7<UUID!, Boolean!, OffsetDateTime!, OffsetDateTime!, UUID!, String!, Int!>!`

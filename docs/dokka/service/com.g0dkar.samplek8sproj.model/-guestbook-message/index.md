@@ -8,7 +8,7 @@
 
 | Name | Summary |
 |---|---|
-| [&lt;init&gt;](-init-.md) | `GuestbookMessage(id: UUID, active: Boolean, created: OffsetDateTime, message: String, visitorTypeId: Int, parent: UUID?)` |
+| [&lt;init&gt;](-init-.md) | `GuestbookMessage(id: UUID, active: Boolean, created: OffsetDateTime = OffsetDateTime.now(), updated: OffsetDateTime = OffsetDateTime.now(), message: String, visitorTypeId: Int, parent: UUID?)` |
 
 ### Properties
 
@@ -19,4 +19,5 @@
 | [id](id.md) | `val id: UUID` |
 | [message](message.md) | `val message: String` |
 | [parent](parent.md) | `val parent: UUID?` |
+| [updated](updated.md) | `val updated: OffsetDateTime` |
 | [visitorTypeId](visitor-type-id.md) | `val visitorTypeId: Int` |

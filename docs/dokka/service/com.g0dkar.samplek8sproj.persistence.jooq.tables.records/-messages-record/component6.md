@@ -2,4 +2,4 @@
 
 # component6
 
-`open fun component6(): Int!`
+`open fun component6(): String!`

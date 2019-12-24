@@ -2,4 +2,4 @@
 
 # delete
 
-`suspend fun delete(id: UUID): Boolean`
+`@Transactional([Throwable]) fun delete(id: UUID): Boolean`

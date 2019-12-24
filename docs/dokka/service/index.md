@@ -6,6 +6,7 @@
 |---|---|
 | [com.g0dkar.samplek8sproj](com.g0dkar.samplek8sproj/index.md) |  |
 | [com.g0dkar.samplek8sproj.api](com.g0dkar.samplek8sproj.api/index.md) |  |
+| [com.g0dkar.samplek8sproj.exception](com.g0dkar.samplek8sproj.exception/index.md) |  |
 | [com.g0dkar.samplek8sproj.extensions](com.g0dkar.samplek8sproj.extensions/index.md) |  |
 | [com.g0dkar.samplek8sproj.model](com.g0dkar.samplek8sproj.model/index.md) |  |
 | [com.g0dkar.samplek8sproj.model.request](com.g0dkar.samplek8sproj.model.request/index.md) |  |

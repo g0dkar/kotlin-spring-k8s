@@ -2,4 +2,4 @@
 
 # getMessages
 
-`suspend fun getMessages(offset: Int = 0, max: Int = 50): Flow<`[`GuestbookMessageResponse`](../../com.g0dkar.samplek8sproj.model.response/-guestbook-message-response/index.md)`>`
+`fun getMessages(offset: Int = 0, max: Int = 50): List<`[`GuestbookMessageResponse`](../../com.g0dkar.samplek8sproj.model.response/-guestbook-message-response/index.md)`>`

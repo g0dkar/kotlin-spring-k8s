@@ -2,4 +2,4 @@
 
 # valuesRow
 
-`open fun valuesRow(): Row6<UUID!, Boolean!, OffsetDateTime!, UUID!, String!, Int!>!`
+`open fun valuesRow(): Row7<UUID!, Boolean!, OffsetDateTime!, OffsetDateTime!, UUID!, String!, Int!>!`

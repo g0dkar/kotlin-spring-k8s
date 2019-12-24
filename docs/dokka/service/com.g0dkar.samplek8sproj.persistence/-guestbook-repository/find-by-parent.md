@@ -2,4 +2,4 @@
 
 # findByParent
 
-`suspend fun findByParent(id: UUID): Flow<`[`GuestbookMessage`](../../com.g0dkar.samplek8sproj.model/-guestbook-message/index.md)`>`
+`fun findByParent(id: UUID): List<`[`GuestbookMessage`](../../com.g0dkar.samplek8sproj.model/-guestbook-message/index.md)`>`

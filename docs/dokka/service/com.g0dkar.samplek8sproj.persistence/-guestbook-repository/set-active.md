@@ -2,4 +2,4 @@
 
 # setActive
 
-`suspend fun setActive(id: UUID, active: Boolean): Boolean`
+`fun setActive(id: UUID, active: Boolean): Boolean`

@@ -8,7 +8,7 @@
 
 | Name | Summary |
 |---|---|
-| [&lt;init&gt;](-init-.md) | `GuestbookMessageRequest(message: String?, visitorType: `[`VisitorType`](../../com.g0dkar.samplek8sproj.model/-visitor-type/index.md)`? = VisitorType.HUMAN, parent: UUID? = null)` |
+| [&lt;init&gt;](-init-.md) | `GuestbookMessageRequest(message: String?, visitorType: `[`VisitorType`](../../com.g0dkar.samplek8sproj.model/-visitor-type/index.md)`?, parent: UUID? = null)` |
 
 ### Properties
 

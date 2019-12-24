@@ -2,4 +2,4 @@
 
 # save
 
-`suspend fun save(message: `[`GuestbookMessage`](../../com.g0dkar.samplek8sproj.model/-guestbook-message/index.md)`): Boolean`
+`fun save(message: `[`GuestbookMessage`](../../com.g0dkar.samplek8sproj.model/-guestbook-message/index.md)`): Boolean`

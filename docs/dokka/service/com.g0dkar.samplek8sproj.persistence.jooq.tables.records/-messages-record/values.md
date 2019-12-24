@@ -2,4 +2,4 @@
 
 # values
 
-`open fun values(value1: UUID!, value2: Boolean!, value3: OffsetDateTime!, value4: UUID!, value5: String!, value6: Int!): `[`MessagesRecord`](index.md)`!`
+`open fun values(value1: UUID!, value2: Boolean!, value3: OffsetDateTime!, value4: OffsetDateTime!, value5: UUID!, value6: String!, value7: Int!): `[`MessagesRecord`](index.md)`!`

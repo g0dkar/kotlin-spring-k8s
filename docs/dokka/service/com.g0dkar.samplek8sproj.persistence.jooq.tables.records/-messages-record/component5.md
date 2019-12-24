@@ -2,4 +2,4 @@
 
 # component5
 
-`open fun component5(): String!`
+`open fun component5(): UUID!`

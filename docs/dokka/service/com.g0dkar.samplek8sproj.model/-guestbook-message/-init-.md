@@ -2,4 +2,4 @@
 
 # &lt;init&gt;
 
-`GuestbookMessage(id: UUID, active: Boolean, created: OffsetDateTime, message: String, visitorTypeId: Int, parent: UUID?)`
+`GuestbookMessage(id: UUID, active: Boolean, created: OffsetDateTime = OffsetDateTime.now(), updated: OffsetDateTime = OffsetDateTime.now(), message: String, visitorTypeId: Int, parent: UUID?)`

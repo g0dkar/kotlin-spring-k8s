@@ -2,4 +2,4 @@
 
 # findById
 
-`suspend fun findById(id: UUID): `[`GuestbookMessage`](../../com.g0dkar.samplek8sproj.model/-guestbook-message/index.md)`?`
+`fun findById(id: UUID): `[`GuestbookMessage`](../../com.g0dkar.samplek8sproj.model/-guestbook-message/index.md)`?`

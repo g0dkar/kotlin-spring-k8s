@@ -2,4 +2,4 @@
 
 # &lt;init&gt;
 
-`GuestbookMessageResponse(id: UUID, active: Boolean, created: OffsetDateTime, message: String, visitorType: `[`VisitorType`](../../com.g0dkar.samplek8sproj.model/-visitor-type/index.md)`, children: List<`[`GuestbookMessageResponse`](index.md)`>?)`
+`GuestbookMessageResponse(id: UUID, active: Boolean, created: OffsetDateTime, message: String, visitorType: `[`VisitorType`](../../com.g0dkar.samplek8sproj.model/-visitor-type/index.md)`, parent: UUID?, children: List<`[`GuestbookMessageResponse`](index.md)`>?)`

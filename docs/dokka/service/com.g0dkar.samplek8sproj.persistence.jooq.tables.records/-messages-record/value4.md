@@ -2,5 +2,5 @@
 
 # value4
 
-`open fun value4(): UUID!`
-`open fun value4(value: UUID!): `[`MessagesRecord`](index.md)`!`
+`open fun value4(): OffsetDateTime!`
+`open fun value4(value: OffsetDateTime!): `[`MessagesRecord`](index.md)`!`

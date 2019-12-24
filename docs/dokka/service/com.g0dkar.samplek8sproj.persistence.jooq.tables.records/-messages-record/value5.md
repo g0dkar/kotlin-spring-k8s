@@ -2,5 +2,5 @@
 
 # value5
 
-`open fun value5(): String!`
-`open fun value5(value: String!): `[`MessagesRecord`](index.md)`!`
+`open fun value5(): UUID!`
+`open fun value5(value: UUID!): `[`MessagesRecord`](index.md)`!`

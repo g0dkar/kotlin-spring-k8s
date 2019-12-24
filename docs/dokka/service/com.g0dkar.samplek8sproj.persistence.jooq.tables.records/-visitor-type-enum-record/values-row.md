@@ -2,4 +2,4 @@
 
 # valuesRow
 
-`open fun valuesRow(): Row2<Int!, String!>!`
+`open fun valuesRow(): Row3<Int!, String!, OffsetDateTime!>!`

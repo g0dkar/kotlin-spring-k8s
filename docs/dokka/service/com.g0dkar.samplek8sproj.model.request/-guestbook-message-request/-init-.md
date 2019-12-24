@@ -2,4 +2,4 @@
 
 # &lt;init&gt;
 
-`GuestbookMessageRequest(message: String?, visitorType: `[`VisitorType`](../../com.g0dkar.samplek8sproj.model/-visitor-type/index.md)`? = VisitorType.HUMAN, parent: UUID? = null)`
+`GuestbookMessageRequest(message: String?, visitorType: `[`VisitorType`](../../com.g0dkar.samplek8sproj.model/-visitor-type/index.md)`?, parent: UUID? = null)`

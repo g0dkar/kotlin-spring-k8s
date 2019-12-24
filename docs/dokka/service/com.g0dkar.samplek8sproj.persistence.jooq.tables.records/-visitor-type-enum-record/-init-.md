@@ -6,7 +6,7 @@
 
 Create a detached VisitorTypeEnumRecord
 
-`VisitorTypeEnumRecord(id: Int!, name: String!)`
+`VisitorTypeEnumRecord(id: Int!, name: String!, created: OffsetDateTime!)`
 
 Create a detached, initialised VisitorTypeEnumRecord
 

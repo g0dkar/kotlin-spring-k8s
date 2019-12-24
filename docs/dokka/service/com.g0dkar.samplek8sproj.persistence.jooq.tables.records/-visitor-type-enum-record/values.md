@@ -2,4 +2,4 @@
 
 # values
 
-`open fun values(value1: Int!, value2: String!): `[`VisitorTypeEnumRecord`](index.md)`!`
+`open fun values(value1: Int!, value2: String!, value3: OffsetDateTime!): `[`VisitorTypeEnumRecord`](index.md)`!`

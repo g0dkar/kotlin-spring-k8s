@@ -2,4 +2,4 @@
 
 # fieldsRow
 
-`open fun fieldsRow(): Row2<Int!, String!>!`
+`open fun fieldsRow(): Row3<Int!, String!, OffsetDateTime!>!`

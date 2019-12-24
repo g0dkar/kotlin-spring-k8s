@@ -2,4 +2,4 @@
 
 # component4
 
-`open fun component4(): UUID!`
+`open fun component4(): OffsetDateTime!`

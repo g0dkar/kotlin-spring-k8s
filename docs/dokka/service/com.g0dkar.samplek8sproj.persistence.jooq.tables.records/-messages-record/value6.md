@@ -2,5 +2,5 @@
 
 # value6
 
-`open fun value6(): Int!`
-`open fun value6(value: Int!): `[`MessagesRecord`](index.md)`!`
+`open fun value6(): String!`
+`open fun value6(value: String!): `[`MessagesRecord`](index.md)`!`

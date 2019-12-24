@@ -2,4 +2,4 @@
 
 # field6
 
-`open fun field6(): Field<Int!>!`
+`open fun field6(): Field<String!>!`

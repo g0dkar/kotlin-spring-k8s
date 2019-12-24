@@ -6,7 +6,7 @@
 
 Create a detached MessagesRecord
 
-`MessagesRecord(id: UUID!, active: Boolean!, created: OffsetDateTime!, parent: UUID!, message: String!, visitorTypeId: Int!)`
+`MessagesRecord(id: UUID!, active: Boolean!, created: OffsetDateTime!, updated: OffsetDateTime!, parent: UUID!, message: String!, visitorTypeId: Int!)`
 
 Create a detached, initialised MessagesRecord
 

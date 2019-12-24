@@ -6,6 +6,8 @@ import com.g0dkar.samplek8sproj.model.VisitorType
 import com.g0dkar.samplek8sproj.model.request.GuestbookMessageRequest
 import com.g0dkar.samplek8sproj.model.response.GuestbookMessageResponse
 import com.g0dkar.samplek8sproj.persistence.jooq.Tables.MESSAGES
+import com.g0dkar.samplek8sproj.util.randomFrom
+import com.g0dkar.samplek8sproj.util.randomString
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType.JSON
 import io.restassured.matcher.ResponseAwareMatcherComposer.and
@@ -22,7 +24,6 @@ import org.springframework.http.HttpStatus.NOT_FOUND
 import org.springframework.http.HttpStatus.NO_CONTENT
 import org.springframework.http.HttpStatus.OK
 import java.time.OffsetDateTime
-import java.util.Random
 import java.util.UUID
 
 internal class GuestbookApiIntegrationTest(
@@ -32,7 +33,7 @@ internal class GuestbookApiIntegrationTest(
     companion object {
         private const val ENDPOINT: String = "/guestbook"
         private const val MESSAGE_TEXT: String = "Test Message"
-        private val MESSAGE_VISITOR_TYPE = VisitorType.values().let { it[Random().nextInt(it.size)] }
+        private val MESSAGE_VISITOR_TYPE = randomFrom(VisitorType.values())
     }
 
     @Test
@@ -122,7 +123,7 @@ internal class GuestbookApiIntegrationTest(
 
     @Test
     fun `POST should create message`() {
-        val expectedContent = MESSAGE_TEXT
+        val expectedContent = randomString()
         val expectedVisitorType = MESSAGE_VISITOR_TYPE.name
         val requestJson = "{\"message\":\"$expectedContent\",\"visitor_type\":\"$expectedVisitorType\"}"
 
@@ -144,13 +145,24 @@ internal class GuestbookApiIntegrationTest(
                     startsWith(ENDPOINT),
                     endsWithPath("id")
                 )
-            )
+            ).also {
+                val createdLocation = it.extract().header("Location")
+
+                given()
+                    .`when`()
+                    .get(createdLocation)
+                    .then()
+                    .statusCode(OK.value())
+                    .body("message", equalTo(expectedContent))
+                    .body("visitor_type", equalTo(expectedVisitorType))
+                    .body("active", equalTo(true))
+            }
     }
 
     @Test
     fun `POST should create message with a parent`() {
         val parentMessage = testMessage()
-        val expectedContent = MESSAGE_TEXT
+        val expectedContent = randomString()
         val expectedVisitorType = MESSAGE_VISITOR_TYPE.name
         val requestJson = "{\"message\":\"$expectedContent\",\"visitor_type\":\"$expectedVisitorType\",\"parent\":" +
             "\"${parentMessage.first.id}\"}"
@@ -180,7 +192,7 @@ internal class GuestbookApiIntegrationTest(
     @Test
     fun `POST should not create message with inactive parent`() {
         val parentMessage = testMessage(active = false)
-        val expectedContent = MESSAGE_TEXT
+        val expectedContent = randomString()
         val expectedVisitorType = MESSAGE_VISITOR_TYPE.name
         val requestJson = "{\"message\":\"$expectedContent\",\"visitor_type\":\"$expectedVisitorType\",\"parent\":" +
             "\"${parentMessage.first.id}\"}"
@@ -198,7 +210,7 @@ internal class GuestbookApiIntegrationTest(
     @Test
     fun `POST should not create message with non-existing parent`() {
         val parentId = UUID.randomUUID()
-        val expectedContent = MESSAGE_TEXT
+        val expectedContent = randomString()
         val expectedVisitorType = MESSAGE_VISITOR_TYPE.name
         val requestJson = "{\"message\":\"$expectedContent\",\"visitor_type\":\"$expectedVisitorType\",\"parent\":" +
             "\"$parentId\"}"
@@ -230,7 +242,7 @@ internal class GuestbookApiIntegrationTest(
 
     @Test
     fun `POST should validate request - no visitorType`() {
-        val requestJson = "{\"message\":\"$MESSAGE_TEXT\"}"
+        val requestJson = "{\"message\":\"${randomString()}\"}"
 
         given()
             .`when`()

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -e
+set -Euxo pipefail
 
 echo "Building Maven Artifacts..."
 

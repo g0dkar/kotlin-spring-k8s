@@ -7,5 +7,7 @@ import org.springframework.boot.runApplication
 class Launcher
 
 fun main(args: Array<String>) {
+    System.setProperty("org.jooq.no-logo", "true")
+
     runApplication<Launcher>(*args)
 }

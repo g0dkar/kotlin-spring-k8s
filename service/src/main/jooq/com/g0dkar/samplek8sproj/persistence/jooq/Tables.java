@@ -7,7 +7,7 @@ package com.g0dkar.samplek8sproj.persistence.jooq;
 import com.g0dkar.samplek8sproj.persistence.jooq.tables.Messages;
 import com.g0dkar.samplek8sproj.persistence.jooq.tables.VisitorTypeEnum;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 
 
 /**

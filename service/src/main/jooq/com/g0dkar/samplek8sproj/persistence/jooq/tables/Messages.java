@@ -8,26 +8,15 @@ import com.g0dkar.samplek8sproj.persistence.jooq.Indexes;
 import com.g0dkar.samplek8sproj.persistence.jooq.Keys;
 import com.g0dkar.samplek8sproj.persistence.jooq.Public;
 import com.g0dkar.samplek8sproj.persistence.jooq.tables.records.MessagesRecord;
+import org.jooq.*;
+import org.jooq.impl.DSL;
+import org.jooq.impl.TableImpl;
 
+import javax.annotation.processing.Generated;
 import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
-
-import javax.annotation.Generated;
-
-import org.jooq.Field;
-import org.jooq.ForeignKey;
-import org.jooq.Index;
-import org.jooq.Name;
-import org.jooq.Record;
-import org.jooq.Row6;
-import org.jooq.Schema;
-import org.jooq.Table;
-import org.jooq.TableField;
-import org.jooq.UniqueKey;
-import org.jooq.impl.DSL;
-import org.jooq.impl.TableImpl;
 
 
 /**
@@ -43,7 +32,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Messages extends TableImpl<MessagesRecord> {
 
-    private static final long serialVersionUID = -1242268353;
+    private static final long serialVersionUID = -1736141353;
 
     /**
      * The reference instance of <code>public.messages</code>
@@ -72,6 +61,11 @@ public class Messages extends TableImpl<MessagesRecord> {
      * The column <code>public.messages.created</code>.
      */
     public final TableField<MessagesRecord, OffsetDateTime> CREATED = createField(DSL.name("created"), org.jooq.impl.SQLDataType.TIMESTAMPWITHTIMEZONE.nullable(false), this, "");
+
+    /**
+     * The column <code>public.messages.updated</code>.
+     */
+    public final TableField<MessagesRecord, OffsetDateTime> UPDATED = createField(DSL.name("updated"), org.jooq.impl.SQLDataType.TIMESTAMPWITHTIMEZONE.nullable(false), this, "");
 
     /**
      * The column <code>public.messages.parent</code>.
@@ -181,11 +175,11 @@ public class Messages extends TableImpl<MessagesRecord> {
     }
 
     // -------------------------------------------------------------------------
-    // Row6 type methods
+    // Row7 type methods
     // -------------------------------------------------------------------------
 
     @Override
-    public Row6<UUID, Boolean, OffsetDateTime, UUID, String, Integer> fieldsRow() {
-        return (Row6) super.fieldsRow();
+    public Row7<UUID, Boolean, OffsetDateTime, OffsetDateTime, UUID, String, Integer> fieldsRow() {
+        return (Row7) super.fieldsRow();
     }
 }

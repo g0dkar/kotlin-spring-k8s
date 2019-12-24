@@ -13,6 +13,8 @@ class IntegrationTestContext {
         private const val POSTGRESQL_INIT_SCRIPT = "docker-postgres/init_db.sql"
 
         init {
+            System.setProperty("org.jooq.no-logo", "true")
+
             val initDbFile = MountableFile.forClasspathResource(POSTGRESQL_INIT_SCRIPT)
 
             PostgreSQLContainer<Nothing>(POSTGRESQL_IMAGE)

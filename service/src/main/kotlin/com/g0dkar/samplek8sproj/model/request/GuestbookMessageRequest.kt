@@ -12,7 +12,7 @@ data class GuestbookMessageRequest(
     val message: String?,
 
     @field:NotNull
-    val visitorType: VisitorType? = VisitorType.HUMAN,
+    val visitorType: VisitorType?,
 
     val parent: UUID? = null
 )

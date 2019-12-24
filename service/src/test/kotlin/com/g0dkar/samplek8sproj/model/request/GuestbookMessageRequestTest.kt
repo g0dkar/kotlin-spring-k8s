@@ -28,7 +28,7 @@ internal class GuestbookMessageRequestTest {
 
     @Test
     fun `message cannot be empty`() {
-        val underTest = GuestbookMessageRequest(message = "")
+        val underTest = GuestbookMessageRequest(message = "", visitorType = VALID_VISITOR_TYPE)
 
         val result = assertDoesNotThrow { validator.validate(underTest) }
 
@@ -48,7 +48,7 @@ internal class GuestbookMessageRequestTest {
 
     @Test
     fun `message cannot be blank`() {
-        val underTest = GuestbookMessageRequest(message = "          ")
+        val underTest = GuestbookMessageRequest(message = "          ", visitorType = VALID_VISITOR_TYPE)
 
         val result = assertDoesNotThrow { validator.validate(underTest) }
 
@@ -63,7 +63,7 @@ internal class GuestbookMessageRequestTest {
     @Test
     fun `message cannot be over 1024 chars`() {
         val longString = RandomStringUtils.random(1025)
-        val underTest = GuestbookMessageRequest(message = longString)
+        val underTest = GuestbookMessageRequest(message = longString, visitorType = VALID_VISITOR_TYPE)
 
         val result = assertDoesNotThrow { validator.validate(underTest) }
 

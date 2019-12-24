@@ -2,9 +2,6 @@ package com.g0dkar.samplek8sproj.model.response
 
 import com.g0dkar.samplek8sproj.model.GuestbookMessage
 import com.g0dkar.samplek8sproj.model.VisitorType
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.flow.toCollection
 import java.time.OffsetDateTime
 import java.util.UUID
 
@@ -14,6 +11,7 @@ data class GuestbookMessageResponse(
     val created: OffsetDateTime,
     val message: String,
     val visitorType: VisitorType,
+    val parent: UUID?,
     val children: List<GuestbookMessageResponse>?
 ) {
     companion object {
@@ -21,9 +19,9 @@ data class GuestbookMessageResponse(
          * Converts a [GuestbookMessage] into a [GuestbookMessageResponse]. The [children] argument will be used for the
          * response. It should be filled by the caller.
          */
-        suspend fun of(
+        fun of(
             guestbookMessage: GuestbookMessage,
-            children: Flow<GuestbookMessageResponse> = emptyFlow()
+            children: List<GuestbookMessageResponse> = listOf()
         ): GuestbookMessageResponse =
             GuestbookMessageResponse(
                 id = guestbookMessage.id,
@@ -31,7 +29,9 @@ data class GuestbookMessageResponse(
                 created = guestbookMessage.created,
                 message = guestbookMessage.message,
                 visitorType = VisitorType.valueOf(guestbookMessage.visitorTypeId),
-                children = children.toCollection(mutableListOf()).takeIf { it.isNotEmpty() }
+                parent = guestbookMessage.parent,
+                children = children
+                // children = children.toCollection(mutableListOf()).takeIf { it.isNotEmpty() }
             )
     }
 }

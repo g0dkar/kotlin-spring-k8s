@@ -110,6 +110,11 @@ databaseChangeLog:
                   constraints:
                     nullable: false
               - column:
+                  name: updated
+                  type: timestamptz
+                  constraints:
+                    nullable: false
+              - column:
                   name: parent
                   type: uuid
                   constraints:

@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+#
+# Sets up JVM arguments and launches a Spring Boot App
+
+# Safety :)
+set -Euxof pipefail
+
+# Assuming we're using AdoptOpenJDK 11 with Hotspot
+ALL_OPTS="-server -Duser.timezone=${TIMEZONE:-UTC}"
+
+############################
+# Memory
+############################
+# Options recommended by Shenandoah:
+# https://wiki.openjdk.java.net/display/shenandoah/Main#Main-Basicconfiguration
+ALL_OPTS="${ALL_OPTS} -XX:+AlwaysPreTouch -XX:+UseNUMA -XX:+DisableExplicitGC"
+
+if [[ "${MEM_SIZE_BYTES:-}" != '' ]]; then
+  # Because of AlwaysPreTouch, having Xmx and Xms the same will allocate all the memory wanted at startup
+  ALL_OPTS="${ALL_OPTS} -Xmx$((MEM_SIZE_BYTES * 1024 * MEM_MAX_PCT / 100))k
+             -Xms$((MEM_SIZE_BYTES * 1024 * MEM_MAX_PCT / 100))k"
+else
+  ALL_OPTS="${ALL_OPTS} -XX:MaxRAMPercentage=${MEM_MAX_PCT:-70}.0"
+fi
+
+############################
+# GC
+############################
+# Allow to use ZGC instead of Shenandoah
+if [[ "${USE_ZGC:-}" != '' ]]; then
+  ALL_OPTS="${ALL_OPTS} -XX:+UnlockExperimentalVMOptions -XX:+UseZGC"
+else
+  # Default: Shenandoah
+  # More info: http://clojure-goes-fast.com/blog/shenandoah-in-production/
+  ALL_OPTS="${ALL_OPTS} -XX:+UnlockExperimentalVMOptions -XX:+UseShenandoahGC"
+fi
+
+############################
+# JMX
+############################
+if [[ "${JMX_PORT:-}" != '' ]]; then
+  ALL_OPTS="${ALL_OPTS} -Dcom.sun.management.jmxremote
+             -Dcom.sun.management.jmxremote.authenticate=false
+             -Dcom.sun.management.jmxremote.local.only=false
+             -Dcom.sun.management.jmxremote.port=${JMX_PORT}
+             -Dcom.sun.management.jmxremote.rmi.port=${JMX_PORT}
+             -Dcom.sun.management.jmxremote.ssl=false
+             -Dcom.sun.management.jmxremote.host=$(hostname -i)
+             -Djava.rmi.server.hostname=$(hostname -i)"
+fi
+
+ALL_OPTS="${ALL_OPTS} ${JAVA_OPTS:-}"
+
+exec java -jar $ALL_OPTS $1

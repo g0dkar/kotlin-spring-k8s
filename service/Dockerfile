@@ -1,13 +1,16 @@
 FROM adoptopenjdk:11-jre-hotspot
+
 MAINTAINER Rafael M. Lins <rafael.lins777@gmail.com>
 
-# Updates the image
-COPY docker-data/install_updates.sh /install_updates.sh
-RUN bash /install_updates.sh
+LABEL service=kotlin-spring
 
-# Custom java.security (no cache, non-blocking and safe SecureRandom)
+# Updates the image
+COPY docker-data/install_updates /install_updates
+RUN /install_updates
+
+# Custom java.security (no DNS cache, non-blocking and safe SecureRandom)
 # Reference: https://tersesystems.com/blog/2015/12/17/the-right-way-to-use-securerandom/
-COPY docker-data/security ${JAVA_HOME}/conf/security
+COPY docker-data/java.security ${JAVA_HOME}/conf/security/java.security
 
 # Port we will expose
 EXPOSE 8080/tcp
@@ -15,6 +18,8 @@ EXPOSE 8080/tcp
 # Copy the fat jar into the image
 COPY target/app.jar /app.jar
 
+# Copy the launcher script
+COPY docker-data/launch_app /launch_app
+
 # Entry point
-ENTRYPOINT ["java", "-Duser.timezone=UTC", \
-            "-server", "-jar", "/app.jar"]
+ENTRYPOINT ["/launch_app", "/app.jar"]

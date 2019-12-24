@@ -1,10 +1,12 @@
 root = true
 
-[*.{java, js, jsp, kt, kts, md, properties, sh, sql, yml, yaml}]
+[*]
 charset = utf-8
 trim_trailing_whitespace = true
-insert_final_newline = true
 end_of_line = lf
+
+[*.{java, js, jsp, kt, kts, md, properties, sh, sql, yml, yaml}]
+insert_final_newline = true
 
 [*.{kt, kts}]
 indent_style = space

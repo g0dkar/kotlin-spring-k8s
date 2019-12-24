@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
+#
+# Install updates and a few utilities (for debugging)
 
 # https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/
 set -Euxo pipefail
 
-# Ensures that no documentation is installed.
+# Prevents installation of documentation
 mkdir -p /etc/dpkg/dpkg.conf.d
 echo 'path-exclude /usr/share/*' > /etc/dpkg/dpkg.conf.d/01_nodoc
 
@@ -40,4 +42,4 @@ rm -rf /var/lib/apt/lists/*
 
 unattended-upgrades -d
 
-rm -f /install_updates.sh
+rm -f /install_updates

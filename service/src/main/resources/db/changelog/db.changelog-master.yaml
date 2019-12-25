@@ -133,27 +133,3 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: fk_messages___visitor_type_enum
                     references: visitor_type_enum(id)
-
-  - changeSet:
-      id: create_hello_world_message
-      author: rafaellins
-      comment: Create a Hello World message
-      changes:
-        - insert:
-            tableName: messages
-            columns:
-              - column:
-                  name: id
-                  value: 00000000-0000-0000-0000-000000000000
-              - column:
-                  name: active
-                  value: true
-              - column:
-                  name: created
-                  valueComputed: NOW()
-              - column:
-                  name: message
-                  value: "Hello, World!"
-              - column:
-                  name: visitor_type_id
-                  value: 1

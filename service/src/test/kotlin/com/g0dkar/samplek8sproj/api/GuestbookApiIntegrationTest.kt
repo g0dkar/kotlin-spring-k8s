@@ -1,6 +1,7 @@
 package com.g0dkar.samplek8sproj.api
 
 import com.g0dkar.samplek8sproj.IntegrationTest
+import com.g0dkar.samplek8sproj.extensions.log
 import com.g0dkar.samplek8sproj.model.GuestbookMessage
 import com.g0dkar.samplek8sproj.model.VisitorType
 import com.g0dkar.samplek8sproj.model.request.GuestbookMessageRequest
@@ -13,9 +14,12 @@ import io.restassured.http.ContentType.JSON
 import io.restassured.matcher.ResponseAwareMatcherComposer.and
 import io.restassured.matcher.RestAssuredMatchers.endsWithPath
 import kotlinx.coroutines.runBlocking
+import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.CoreMatchers.nullValue
 import org.hamcrest.CoreMatchers.startsWith
 import org.jooq.DSLContext
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.HttpStatus.BAD_REQUEST
@@ -36,23 +40,69 @@ internal class GuestbookApiIntegrationTest(
         private val MESSAGE_VISITOR_TYPE = randomFrom(VisitorType.values())
     }
 
-    @Test
-    fun `GET should return a message given its id`() {
-        val expected = testMessage()
-
-        given()
-            .`when`()
-            .get("$ENDPOINT/${expected.first.id}")
-            .then()
-            .statusCode(OK.value())
-            .body("id", equalTo(expected.first.id.toString()))
-            .body("message", equalTo(MESSAGE_TEXT))
-            .body("visitor_type", equalTo(MESSAGE_VISITOR_TYPE.name))
-            .body("active", equalTo(true))
+    @AfterEach
+    fun deleteAllMessages() {
+        val deletedMessages = jooq.delete(MESSAGES).execute()
+        log.debug("[After Test] Deleted $deletedMessages messages.")
     }
 
     @Test
-    fun `GET should return 404 if a message doesn't exist`() {
+    fun `GET by Id should return a message given its id`() {
+        val expected = createTestMessage().first
+
+        given()
+            .`when`()
+            .get("$ENDPOINT/${expected.id}")
+            .then()
+            .statusCode(OK.value())
+            .body("id", equalTo(expected.id.toString()))
+            .body("message", equalTo(MESSAGE_TEXT))
+            .body("visitor_type", equalTo(MESSAGE_VISITOR_TYPE.name))
+            .body("active", equalTo(true))
+            .body("parent", nullValue())
+    }
+
+    @Test
+    fun `GET by Id should return the message children`() {
+        val parentMessage = createTestMessage().first
+
+        val child1 = createTestMessage(parent = parentMessage.id, content = randomString()).first
+        val child2 = createTestMessage(parent = parentMessage.id, content = randomString()).first
+        val child3 = createTestMessage(parent = parentMessage.id, content = randomString()).first
+
+        given()
+            .`when`()
+            .get("$ENDPOINT/${parentMessage.id}")
+            .then()
+            .statusCode(OK.value())
+            .body("id", equalTo(parentMessage.id.toString()))
+            .body("message", equalTo(MESSAGE_TEXT))
+            .body("visitor_type", equalTo(MESSAGE_VISITOR_TYPE.name))
+            .body("active", equalTo(true))
+            .body("parent", nullValue())
+            .body("children.size()", `is`(3))
+            // Child 1
+            .body("children[0].id", equalTo(child1.id.toString()))
+            .body("children[0].message", equalTo(child1.message))
+            .body("children[0].visitor_type", equalTo(MESSAGE_VISITOR_TYPE.name))
+            .body("children[0].active", equalTo(true))
+            .body("children[0].parent", equalTo(parentMessage.id.toString()))
+            // Child 2
+            .body("children[1].id", equalTo(child2.id.toString()))
+            .body("children[1].message", equalTo(child2.message))
+            .body("children[1].visitor_type", equalTo(MESSAGE_VISITOR_TYPE.name))
+            .body("children[1].active", equalTo(true))
+            .body("children[1].parent", equalTo(parentMessage.id.toString()))
+            // Child 3
+            .body("children[2].id", equalTo(child3.id.toString()))
+            .body("children[2].message", equalTo(child3.message))
+            .body("children[2].visitor_type", equalTo(MESSAGE_VISITOR_TYPE.name))
+            .body("children[2].active", equalTo(true))
+            .body("children[2].parent", equalTo(parentMessage.id.toString()))
+    }
+
+    @Test
+    fun `GET by Id should return 404 if a message doesn't exist`() {
         val nonExistingId = UUID.randomUUID()
 
         given()
@@ -63,8 +113,8 @@ internal class GuestbookApiIntegrationTest(
     }
 
     @Test
-    fun `GET should return 404 if a message is inactive`() {
-        val inactiveMessage = testMessage(active = false)
+    fun `GET by Id should return 404 if a message is inactive`() {
+        val inactiveMessage = createTestMessage(active = false)
 
         given()
             .`when`()
@@ -75,7 +125,7 @@ internal class GuestbookApiIntegrationTest(
 
     @Test
     fun `DELETE should remove the message`() {
-        val toBeDeleted = testMessage().first
+        val toBeDeleted = createTestMessage().first
 
         // Message exists
         given()
@@ -112,7 +162,7 @@ internal class GuestbookApiIntegrationTest(
 
     @Test
     fun `DELETE should return 204 if message is already inactive`() {
-        val inactiveMessage = testMessage(active = false)
+        val inactiveMessage = createTestMessage(active = false)
 
         given()
             .`when`()
@@ -161,7 +211,7 @@ internal class GuestbookApiIntegrationTest(
 
     @Test
     fun `POST should create message with a parent`() {
-        val parentMessage = testMessage()
+        val parentMessage = createTestMessage()
         val expectedContent = randomString()
         val expectedVisitorType = MESSAGE_VISITOR_TYPE.name
         val requestJson = "{\"message\":\"$expectedContent\",\"visitor_type\":\"$expectedVisitorType\",\"parent\":" +
@@ -191,7 +241,7 @@ internal class GuestbookApiIntegrationTest(
 
     @Test
     fun `POST should not create message with inactive parent`() {
-        val parentMessage = testMessage(active = false)
+        val parentMessage = createTestMessage(active = false)
         val expectedContent = randomString()
         val expectedVisitorType = MESSAGE_VISITOR_TYPE.name
         val requestJson = "{\"message\":\"$expectedContent\",\"visitor_type\":\"$expectedVisitorType\",\"parent\":" +
@@ -255,10 +305,79 @@ internal class GuestbookApiIntegrationTest(
     }
 
     @Test
-    fun getAll() {
+    fun `GET all should return a list of messages without parent by DESC time`() {
+        val oldestMessage = createTestMessage(
+            content = randomString(),
+            created = OffsetDateTime.now().minusDays(2)
+        ).first
+        val oldMessage = createTestMessage(
+            content = randomString(),
+            created = OffsetDateTime.now().minusDays(1)
+        ).first
+        val newestMessage = createTestMessage(content = randomString()).first
+
+        val child = createTestMessage(parent = newestMessage.id)
+
+        val expected = listOf(
+            newestMessage,
+            oldMessage,
+            oldestMessage
+        )
+
+        given()
+            .`when`()
+            .get(ENDPOINT)
+            .then()
+            .statusCode(OK.value())
+            .body("size()", `is`(3))
+            // Newest message
+            .body("[0].id", equalTo(expected[0].id.toString()))
+            .body("[0].message", equalTo(expected[0].message))
+            .body("[0].visitor_type", equalTo(MESSAGE_VISITOR_TYPE.name))
+            .body("[0].active", equalTo(true))
+            .body("[0].parent", nullValue())
+            // Old message
+            .body("[1].id", equalTo(expected[1].id.toString()))
+            .body("[1].message", equalTo(expected[1].message))
+            .body("[1].visitor_type", equalTo(MESSAGE_VISITOR_TYPE.name))
+            .body("[1].active", equalTo(true))
+            .body("[1].parent", nullValue())
+            // Oldest message
+            .body("[2].id", equalTo(expected[2].id.toString()))
+            .body("[2].message", equalTo(expected[2].message))
+            .body("[2].visitor_type", equalTo(MESSAGE_VISITOR_TYPE.name))
+            .body("[2].active", equalTo(true))
+            .body("[2].parent", nullValue())
     }
 
-    private fun testMessage(
+    @Test
+    fun `GET all should return empty list if no messages exist`() {
+        given()
+            .`when`()
+            .get(ENDPOINT)
+            .then()
+            .statusCode(OK.value())
+            .body("size()", `is`(0))
+    }
+
+    @Test
+    fun `GET all should not populate children`() {
+        val parentMessage = createTestMessage().first
+        val child = createTestMessage(parent = parentMessage.id)
+
+        given()
+            .`when`()
+            .get(ENDPOINT)
+            .then()
+            .statusCode(OK.value())
+            .body("size()", `is`(1))
+            // Parent
+            .body("[0].id", equalTo(parentMessage.id.toString()))
+            .body("[0].parent", nullValue())
+            .body("[0].children.size()", `is`(0))
+    }
+
+    private fun createTestMessage(
         id: UUID = UUID.randomUUID(),
         parent: UUID? = null,
         content: String = MESSAGE_TEXT,

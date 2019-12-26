@@ -33,6 +33,7 @@
         <resilience4j.version>1.2.0</resilience4j.version>
         <guava.version>28.0-jre</guava.version>
         <owasp.version>5.2.4</owasp.version>
+        <datadog.version>0.37.0</datadog.version>
     </properties>
 
     <dependencyManagement>
@@ -81,6 +82,11 @@
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-maven-plugin</artifactId>
                 <version>${kotlin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.datadoghq</groupId>
+                <artifactId>dd-trace-api</artifactId>
+                <version>${datadog.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -1,11 +1,6 @@
 spring:
-  main:
-    banner-mode: 'off'
   application:
     name: '@application.name@'
-  mvc:
-    favicon:
-      enabled: false
   jooq:
     sql-dialect: POSTGRES
   datasource:
@@ -25,6 +20,13 @@ server:
     min-response-size: 32
   http2:
     enabled: true
+  error:
+    include-exception: false
+    whitelabel:
+      enabled: false
+  servlet:
+    jsp:
+      registered: false
 
 management:
   endpoints:

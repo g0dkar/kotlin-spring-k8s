@@ -1,5 +1,6 @@
 package com.g0dkar.samplek8sproj
 
+import com.g0dkar.samplek8sproj.util.SetupEnvironment
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
@@ -7,7 +8,11 @@ import org.springframework.boot.runApplication
 class Launcher
 
 fun main(args: Array<String>) {
-    System.setProperty("org.jooq.no-logo", "true")
+    SetupEnvironment.apply {
+        setupSpringProfile()
+        disableLogos()
+        disableFavIcon()
+    }
 
     runApplication<Launcher>(*args)
 }

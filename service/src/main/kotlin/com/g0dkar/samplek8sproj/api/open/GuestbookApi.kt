@@ -1,4 +1,4 @@
-package com.g0dkar.samplek8sproj.api
+package com.g0dkar.samplek8sproj.api.open
 
 import com.g0dkar.samplek8sproj.model.request.GuestbookMessageRequest
 import com.g0dkar.samplek8sproj.model.response.GuestbookMessageResponse

@@ -1,19 +1,62 @@
 package com.g0dkar.samplek8sproj.api.global
 
+import com.fasterxml.jackson.databind.exc.MismatchedInputException
 import com.g0dkar.samplek8sproj.extensions.log
+import com.g0dkar.samplek8sproj.model.response.ApiError
+import com.g0dkar.samplek8sproj.model.response.ValidationApiError
+import com.g0dkar.samplek8sproj.model.response.ValidationApiErrorDescription
+import org.springframework.http.HttpStatus.BAD_REQUEST
 import org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR
 import org.springframework.http.ResponseEntity
+import org.springframework.http.converter.HttpMessageNotReadableException
+import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 
+/**
+ * Intercepts exceptions thrown by API invocations and turns them in [ApiError] responses.
+ */
 @RestControllerAdvice
 class GlobalApiExceptionHandler {
-    @ExceptionHandler(Throwable::class)
-    fun handleThrowable(e: Throwable): ResponseEntity<Any> {
-        log.warn("process=unexpected_error, status=error", e)
+    @ExceptionHandler(HttpMessageNotReadableException::class)
+    fun handle(exception: HttpMessageNotReadableException): ResponseEntity<ApiError> =
+        log.warn("process=error_handling, status=invalid_request", exception)
+            .let {
+                val cause = exception.cause
+                val payload = when (cause != null && cause is MismatchedInputException) {
+                    true -> ValidationApiError(
+                        status = BAD_REQUEST.value(),
+                        code = cause.targetType?.simpleName ?: BAD_REQUEST.name,
+                        message = cause.originalMessage?.takeIf { it.isNotBlank() } ?: BAD_REQUEST.reasonPhrase,
+                        validationErrors = listOf(ValidationApiErrorDescription.of(cause))
+                    )
+                    false -> ApiError.of(exception, BAD_REQUEST)
+                }
 
-        return ResponseEntity
-            .status(INTERNAL_SERVER_ERROR)
-            .body("Unexpected error. Please, try again later".toByteArray())
-    }
+                return ResponseEntity
+                    .status(BAD_REQUEST)
+                    .body(payload)
+            }
+
+    @ExceptionHandler(MethodArgumentNotValidException::class)
+    fun handle(exception: MethodArgumentNotValidException): ResponseEntity<ValidationApiError> =
+        log.warn("process=error_handling, status=validation_errors")
+            .let {
+                val errors = exception.bindingResult.allErrors.map {
+                    ValidationApiErrorDescription.of(it)
+                }
+
+                return ResponseEntity
+                    .status(BAD_REQUEST)
+                    .body(ValidationApiError.of(errors))
+            }
+
+    @ExceptionHandler(Throwable::class)
+    fun handle(throwable: Throwable): ResponseEntity<ApiError> =
+        log.warn("process=error_handling, status=unexpected_error", throwable)
+            .let {
+                ResponseEntity
+                    .status(INTERNAL_SERVER_ERROR)
+                    .body(ApiError.of(throwable))
+            }
 }

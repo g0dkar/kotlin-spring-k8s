@@ -2,8 +2,9 @@ package com.g0dkar.samplek8sproj.model.response
 
 import com.g0dkar.samplek8sproj.model.GuestbookMessage
 import com.g0dkar.samplek8sproj.model.VisitorType
-import kotlinx.coroutines.runBlocking
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertDoesNotThrow
@@ -39,8 +40,15 @@ internal class GuestbookMessageResponseTest {
             visitorTypeId = VISITOR_TYPE.id
         )
 
-        val result = assertDoesNotThrow { runBlocking { GuestbookMessageResponse.of(expected) } }
+        val result = assertDoesNotThrow { GuestbookMessageResponse.of(expected) }
 
         assertNotNull(result)
+        assertEquals(expected.id, result.id)
+        assertEquals(expected.message, result.message)
+        assertEquals(expected.active, result.active)
+        assertEquals(expected.created, result.created)
+        assertEquals(expected.parent, result.parent)
+        assertEquals(expected.visitorTypeId, result.visitorType.id)
+        assertNull(result.children)
     }
 }

@@ -21,7 +21,7 @@ data class GuestbookMessageResponse(
          */
         fun of(
             guestbookMessage: GuestbookMessage,
-            children: List<GuestbookMessageResponse> = listOf()
+            children: List<GuestbookMessageResponse>? = null
         ): GuestbookMessageResponse =
             GuestbookMessageResponse(
                 id = guestbookMessage.id,
@@ -31,7 +31,6 @@ data class GuestbookMessageResponse(
                 visitorType = VisitorType.valueOf(guestbookMessage.visitorTypeId),
                 parent = guestbookMessage.parent,
                 children = children
-                // children = children.toCollection(mutableListOf()).takeIf { it.isNotEmpty() }
             )
     }
 }

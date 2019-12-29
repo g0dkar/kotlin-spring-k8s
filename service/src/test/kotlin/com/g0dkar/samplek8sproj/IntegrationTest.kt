@@ -14,7 +14,7 @@ import org.testcontainers.junit.jupiter.Testcontainers
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(classes = [IntegrationTestContext::class], webEnvironment = RANDOM_PORT)
 @AutoConfigureWebTestClient
-internal class IntegrationTest {
+internal abstract class IntegrationTest {
     @LocalServerPort
     protected var serverPort: Int = 0
 

@@ -133,3 +133,11 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: fk_messages___visitor_type_enum
                     references: visitor_type_enum(id)
+
+  - changeSet:
+      id: v1.0.0
+      author: rafaellins
+      comment: v1.0.0
+      changes:
+        - tagDatabase:
+            tag: 1.0.0

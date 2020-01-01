@@ -1,5 +1,6 @@
 package com.g0dkar.samplek8sproj.util
 
+import com.g0dkar.samplek8sproj.extensions.log
 import com.g0dkar.samplek8sproj.util.Environment.Companion.DEFAULT
 import com.g0dkar.samplek8sproj.util.Environment.Companion.ENVIRONMENT_ENV
 import com.g0dkar.samplek8sproj.util.SetupEnvironment.disableLogos
@@ -28,20 +29,30 @@ internal object SetupEnvironment {
             "${environment.suffix}-${region.suffix}"
         )
 
-        System.setProperty("spring.profiles.active", activeProfiles.joinToString())
+        setProperty("spring.profiles.active", activeProfiles.joinToString())
     }
 
     /**
      * Disables printing of logos on startup (Spring Banner and jooq Logo - reduces log pollution).
      */
     fun disableLogos() {
-        System.setProperty("org.jooq.no-logo", "true")
-        System.setProperty("spring.main.banner-mode", "off")
+        setProperty("org.jooq.no-logo", "true")
+        setProperty("spring.main.banner-mode", "off")
     }
 
+    /**
+     * Disables the favicon.
+     */
     fun disableFavIcon() {
-        System.setProperty("spring.mvc.favicon.enabled", "false")
+        setProperty("spring.mvc.favicon.enabled", "false")
     }
+
+    /**
+     * Sets a property and prints a log line about it.
+     */
+    private fun setProperty(property: String, value: String) =
+        log.info("Setting $property = \"$value\"")
+            .also { System.setProperty(property, value) }
 }
 
 /**

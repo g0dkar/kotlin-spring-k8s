@@ -1,7 +1,7 @@
 package com.g0dkar.samplek8sproj
 
 import io.restassured.RestAssured
-import org.junit.Before
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient
 import org.springframework.boot.test.context.SpringBootTest
@@ -18,7 +18,7 @@ internal abstract class IntegrationTest {
     @LocalServerPort
     protected var serverPort: Int = 0
 
-    @Before
+    @BeforeEach
     fun beforeEach() {
         RestAssured.baseURI = "http://localhost:$serverPort"
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails()

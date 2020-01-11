@@ -179,7 +179,6 @@ internal class GuestbookApiIntegrationTest(
 
         given()
             .`when`()
-            .request()
             .contentType(JSON)
             .body(requestJson)
             .post(ENDPOINT)

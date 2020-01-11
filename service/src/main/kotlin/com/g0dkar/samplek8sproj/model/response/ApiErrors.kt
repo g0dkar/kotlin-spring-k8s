@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.validation.FieldError
 import org.springframework.validation.ObjectError
 import org.springframework.web.bind.annotation.ResponseStatus
+import org.springframework.web.server.ResponseStatusException
 import java.time.OffsetDateTime
 import javax.validation.ConstraintViolation
 
@@ -33,7 +34,13 @@ open class ApiError(
 
         fun of(exception: Throwable, status: HttpStatus = HttpStatus.INTERNAL_SERVER_ERROR): ApiError {
             val responseCodeAnnotation = exception.javaClass.getAnnotation(ResponseStatus::class.java)
-            val actualStatus = responseCodeAnnotation?.code ?: responseCodeAnnotation?.value ?: status
+            val actualStatus = responseCodeAnnotation?.code
+                ?: responseCodeAnnotation?.value
+                ?: if (exception is ResponseStatusException) {
+                    exception.status
+                } else {
+                    status
+                }
 
             return ApiError(
                 status = actualStatus.value(),

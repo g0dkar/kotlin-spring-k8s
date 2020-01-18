@@ -20,7 +20,7 @@ class GlobalApiExceptionHandler {
     // @ExceptionHandler(HttpMessageNotReadableException::class)
     @ExceptionHandler(ServerWebInputException::class)
     fun handleServerWebInputException(exception: ServerWebInputException): ResponseEntity<ApiError> =
-        log.warn("process=error_handling, status=invalid_request", exception)
+        log.warn("process=error_handling, status=invalid_request, exception=${exception.javaClass.name}")
             .let {
                 val cause = exception.cause
 
@@ -54,7 +54,7 @@ class GlobalApiExceptionHandler {
 
     @ExceptionHandler(Throwable::class)
     fun handleThrowable(throwable: Throwable): ResponseEntity<ApiError> =
-        log.warn("process=error_handling, status=unexpected_error", throwable)
+        log.error("process=error_handling, status=unexpected_error", throwable)
             .let { ApiError.of(throwable) }
             .let { ResponseEntity.status(it.status).body(it) }
 }

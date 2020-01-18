@@ -6,6 +6,7 @@ import com.g0dkar.samplek8sproj.util.randomFrom
 import io.restassured.RestAssured.given
 import io.restassured.http.ContentType.JSON
 import org.hamcrest.CoreMatchers.equalTo
+import org.hamcrest.CoreMatchers.notNullValue
 import org.junit.jupiter.api.Test
 import org.springframework.http.HttpStatus.BAD_REQUEST
 
@@ -27,7 +28,14 @@ internal class GlobalApiExceptionHandlerIntegrationTest : IntegrationTest() {
             .post(ENDPOINT)
             .then()
             .statusCode(BAD_REQUEST.value())
-            .body("id", equalTo("1"))
+            .body("status", equalTo(BAD_REQUEST.value()))
+            .body("message", notNullValue())
+            .body("code", equalTo(BAD_REQUEST.reasonPhrase))
+            .body("timestamp", notNullValue())
+            .body(
+                "status_info",
+                equalTo("https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/${BAD_REQUEST.value()}")
+            )
     }
 
     @Test

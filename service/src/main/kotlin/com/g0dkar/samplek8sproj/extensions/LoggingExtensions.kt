@@ -4,4 +4,4 @@ import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 
 internal inline val <reified T> T.log: Logger
-    get() = LogManager.getLogger(T::class.java)
+    get() = LogManager.getLogger(T::class.java.name)

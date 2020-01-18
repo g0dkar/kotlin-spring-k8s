@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration>
     <Appenders>
-        <Console name="ConsoleAppender" target="SYSTEM_OUT" follow="true">
-            <!--JsonLayout complete="false" compact="true" eventEol="true" stacktraceAsString="true" /-->
+        <!-- Default Appender -->
+        <Console name="ConsoleAppender" target="SYSTEM_OUT">
             <PatternLayout pattern="${env:CONSOLE_LOG_PATTERN:-%d %p %c [%t] %m%n}"/>
         </Console>
+
+        <!-- JSON Appender -->
+        <Console name="JsonAppender" target="SYSTEM_OUT" follow="true">
+            <JsonLayout complete="false" compact="true" eventEol="true" stacktraceAsString="true"/>
+        </Console>
     </Appenders>
+
     <Loggers>
         <Root level="info">
-            <AppenderRef ref="ConsoleAppender"/>
+            <AppenderRef ref="${env:CONSOLE_LOG_APPENDER:-ConsoleAppender}"/>
         </Root>
     </Loggers>
 </Configuration>

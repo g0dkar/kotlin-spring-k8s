@@ -1,7 +1,5 @@
 package com.g0dkar.samplek8sproj
 
-import com.g0dkar.samplek8sproj.util.Environment
-import com.g0dkar.samplek8sproj.util.SetupEnvironment
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Import
 import org.testcontainers.containers.PostgreSQLContainer
@@ -15,12 +13,6 @@ class IntegrationTestContext {
         private const val POSTGRESQL_INIT_SCRIPT = "docker-postgres/init_db.sql"
 
         init {
-            SetupEnvironment.apply {
-                setupSpringProfile(environment = Environment.TEST)
-                disableLogos()
-                disableFavIcon()
-            }
-
             val initDbFile = MountableFile.forClasspathResource(POSTGRESQL_INIT_SCRIPT)
 
             PostgreSQLContainer<Nothing>(POSTGRESQL_IMAGE)

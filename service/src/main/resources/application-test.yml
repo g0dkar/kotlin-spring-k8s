@@ -1,4 +1,11 @@
 spring:
+  main:
+    banner-mode: 'off'
   liquibase:
     enabled: true
     dropFirst: true
+  profiles:
+    active: test
+org:
+  jooq:
+    no-logo: true

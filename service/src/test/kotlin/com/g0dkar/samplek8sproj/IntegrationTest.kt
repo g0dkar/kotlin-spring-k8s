@@ -7,6 +7,7 @@ import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWeb
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT
 import org.springframework.boot.web.server.LocalServerPort
+import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.junit.jupiter.SpringExtension
 import org.testcontainers.junit.jupiter.Testcontainers
 
@@ -14,6 +15,7 @@ import org.testcontainers.junit.jupiter.Testcontainers
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(classes = [IntegrationTestContext::class], webEnvironment = RANDOM_PORT)
 @AutoConfigureWebTestClient
+@ActiveProfiles("test")
 internal abstract class IntegrationTest {
     @LocalServerPort
     protected var serverPort: Int = 0

@@ -7,9 +7,9 @@ import com.g0dkar.samplek8sproj.model.response.ValidationApiError
 import com.g0dkar.samplek8sproj.model.response.ValidationApiErrorDescription
 import org.springframework.http.HttpStatus.BAD_REQUEST
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
+import org.springframework.web.bind.support.WebExchangeBindException
 import org.springframework.web.server.ServerWebInputException
 
 /**
@@ -17,7 +17,6 @@ import org.springframework.web.server.ServerWebInputException
  */
 @RestControllerAdvice
 class GlobalApiExceptionHandler {
-    // @ExceptionHandler(HttpMessageNotReadableException::class)
     @ExceptionHandler(ServerWebInputException::class)
     fun handleServerWebInputException(exception: ServerWebInputException): ResponseEntity<ApiError> =
         log.warn("process=error_handling, status=invalid_request, exception=${exception.javaClass.name}")
@@ -31,7 +30,7 @@ class GlobalApiExceptionHandler {
                         message = cause.originalMessage?.takeIf { it.isNotBlank() } ?: BAD_REQUEST.reasonPhrase,
                         validationErrors = listOf(ValidationApiErrorDescription.of(cause))
                     )
-                    false -> ApiError.of(exception, BAD_REQUEST)
+                    false -> ApiError.of(cause ?: exception, BAD_REQUEST)
                 }
 
                 return ResponseEntity
@@ -39,8 +38,8 @@ class GlobalApiExceptionHandler {
                     .body(payload)
             }
 
-    @ExceptionHandler(MethodArgumentNotValidException::class)
-    fun handleMethodArgumentNotValidException(exception: MethodArgumentNotValidException): ResponseEntity<ValidationApiError> =
+    @ExceptionHandler(WebExchangeBindException::class)
+    fun handleMethodArgumentNotValidException(exception: WebExchangeBindException): ResponseEntity<ValidationApiError> =
         log.warn("process=error_handling, status=validation_errors")
             .let {
                 val errors = exception.bindingResult.allErrors.map {

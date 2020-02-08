@@ -44,9 +44,8 @@ open class ApiError(
 
             return ApiError(
                 status = actualStatus.value(),
-                message = "${exception.javaClass.name}: " +
-                    "${exception.message?.takeIf { it.isNotBlank() } ?: actualStatus.reasonPhrase}",
-                code = actualStatus.reasonPhrase
+                message = exception.javaClass.simpleName,
+                code = actualStatus.name
             )
         }
 
